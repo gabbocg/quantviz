@@ -2073,7 +2073,7 @@ summary(fit)
 you saw in module 7 — packed with coefficients, residuals, and fit
 diagnostics.
 
-## Coefficients
+## Coefficients {data-anim="count-up"}
 
 ```{r}
 #| echo: false
@@ -2097,9 +2097,6 @@ diagnostics.
 
 <span class="count-up" data-final="`{r} round(.r2, 3)`" data-decimals="3">0</span>
 :::
-:::
-
-::: {data-anim="count-up"}
 :::
 
 Slope is reported per kilogram for legibility; the model itself uses grams.

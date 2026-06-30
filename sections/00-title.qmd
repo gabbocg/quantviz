@@ -1,18 +1,41 @@
-# Introduction to R {.hero data-anim="stagger-up" #s00-title}
+# Introduction to R {.hero #s00-title}
 
 ::: {.section-badge}
-Module 00
+Course · 17 modules
 :::
 
 Introduction to R
 
 ::: {.lede}
-Placeholder — content arrives in a later task.
+From installation to the tidyverse. Live code, real data, reproducible workflows.
 :::
 
 ## What we'll cover {data-anim="stagger-up"}
 
-- Installation and setup
-- R fundamentals: data structures, subsetting, control flow
-- Linear regression and visualization
-- The tidyverse
+- **Setup** — installation, projects, packages, scripts
+- **Foundations** — vectors, matrices, data frames, subsetting
+- **Programming** — conditionals, loops, functions
+- **Analysis** — linear regression, visualization
+- **The tidyverse** — modern R workflow
+
+## How this deck works
+
+::: {.lede}
+Each module opens with a hero slide, ends with a 3-bullet recap.
+:::
+
+- Code blocks are **live**: the output you see was just computed
+- Animations highlight *structure*, never decoration
+- Navigate with `→` / `←`; press `o` for an overview; `s` for speaker notes
+
+---
+
+::: {.section-badge}
+Recap
+:::
+
+## Module 0 · Recap {data-anim="stagger-up"}
+
+- 17 modules, ~70 slides, English
+- Live R execution via knitr + Quarto
+- Subtle animations for pedagogy, never decoration

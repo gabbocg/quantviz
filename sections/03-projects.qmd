@@ -1,0 +1,11 @@
+# RStudio Projects {.hero data-anim="stagger-up" #s03-projects}
+
+::: {.section-badge}
+Module 03
+:::
+
+RStudio Projects
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

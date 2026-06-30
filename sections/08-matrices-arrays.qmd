@@ -1,0 +1,11 @@
+# Matrices & Arrays {.hero data-anim="stagger-up" #s08-matrices-arrays}
+
+::: {.section-badge}
+Module 08
+:::
+
+Matrices & Arrays
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

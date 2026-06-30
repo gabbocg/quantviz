@@ -1,0 +1,25 @@
+---
+title: "Introduction to R"
+subtitle: "From installation to the tidyverse"
+author: "Gabriel Cabrera"
+date: "2026-06-30"
+date-format: "MMMM YYYY"
+---
+
+{{< include sections/00-title.qmd >}}
+{{< include sections/01-installation.qmd >}}
+{{< include sections/02-posit-cloud.qmd >}}
+{{< include sections/03-projects.qmd >}}
+{{< include sections/04-packages.qmd >}}
+{{< include sections/05-scripts.qmd >}}
+{{< include sections/06-data-structures.qmd >}}
+{{< include sections/07-vectors-lists.qmd >}}
+{{< include sections/08-matrices-arrays.qmd >}}
+{{< include sections/09-dataframes-tibbles.qmd >}}
+{{< include sections/10-subsetting.qmd >}}
+{{< include sections/11-conditionals-loops.qmd >}}
+{{< include sections/12-functions.qmd >}}
+{{< include sections/13-linear-regression.qmd >}}
+{{< include sections/14-visualization.qmd >}}
+{{< include sections/15-tidyverse.qmd >}}
+{{< include sections/16-resources.qmd >}}

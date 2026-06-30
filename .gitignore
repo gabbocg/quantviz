@@ -7,3 +7,6 @@ _site/
 renv/library/
 renv/python/
 renv/staging/
+
+/.quarto/
+**/*.quarto_ipynb

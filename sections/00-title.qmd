@@ -1,0 +1,11 @@
+# Introduction to R {.hero data-anim="stagger-up" #s00-title}
+
+::: {.section-badge}
+Module 00
+:::
+
+Introduction to R
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

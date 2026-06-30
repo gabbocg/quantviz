@@ -1,0 +1,11 @@
+# Resources {.hero data-anim="stagger-up" #s16-resources}
+
+::: {.section-badge}
+Module 16
+:::
+
+Resources
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

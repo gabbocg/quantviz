@@ -1,0 +1,11 @@
+# Data Frames & Tibbles {.hero data-anim="stagger-up" #s09-dataframes-tibbles}
+
+::: {.section-badge}
+Module 09
+:::
+
+Data Frames & Tibbles
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

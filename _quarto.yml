@@ -1,0 +1,36 @@
+project:
+  type: default
+  render: ["index.qmd"]
+  output-dir: _site
+
+format:
+  revealjs:
+    theme: [default, assets/theme.scss]
+    slide-number: c/t
+    progress: true
+    transition: fade
+    transition-speed: fast
+    history: true
+    chalkboard: false
+    menu:
+      side: left
+      numbers: true
+    include-in-header:
+      - file: assets/head.html
+    include-after-body:
+      - file: assets/animations.js
+    code-line-numbers: true
+    highlight-style: assets/syntax.theme
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+
+knitr:
+  opts_chunk:
+    dev: "svg"
+    fig.width: 7
+    fig.height: 4.2
+    fig.align: "center"

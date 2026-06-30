@@ -1,0 +1,11 @@
+# R Scripts {.hero data-anim="stagger-up" #s05-scripts}
+
+::: {.section-badge}
+Module 05
+:::
+
+R Scripts
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

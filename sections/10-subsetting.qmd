@@ -1,0 +1,11 @@
+# Subsetting {.hero data-anim="stagger-up" #s10-subsetting}
+
+::: {.section-badge}
+Module 10
+:::
+
+Subsetting
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

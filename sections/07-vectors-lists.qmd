@@ -1,0 +1,11 @@
+# Vectors & Lists {.hero data-anim="stagger-up" #s07-vectors-lists}
+
+::: {.section-badge}
+Module 07
+:::
+
+Vectors & Lists
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

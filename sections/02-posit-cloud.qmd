@@ -1,0 +1,11 @@
+# Posit Cloud {.hero data-anim="stagger-up" #s02-posit-cloud}
+
+::: {.section-badge}
+Module 02
+:::
+
+Posit Cloud
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

@@ -1,0 +1,11 @@
+# Data Structures {.hero data-anim="stagger-up" #s06-data-structures}
+
+::: {.section-badge}
+Module 06
+:::
+
+Data Structures
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

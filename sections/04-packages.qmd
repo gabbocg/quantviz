@@ -1,0 +1,11 @@
+# Package Management {.hero data-anim="stagger-up" #s04-packages}
+
+::: {.section-badge}
+Module 04
+:::
+
+Package Management
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

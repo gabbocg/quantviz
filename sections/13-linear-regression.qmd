@@ -1,0 +1,11 @@
+# Linear Regression {.hero data-anim="stagger-up" #s13-linear-regression}
+
+::: {.section-badge}
+Module 13
+:::
+
+Linear Regression
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

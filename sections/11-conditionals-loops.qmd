@@ -1,0 +1,11 @@
+# Conditionals & Loops {.hero data-anim="stagger-up" #s11-conditionals-loops}
+
+::: {.section-badge}
+Module 11
+:::
+
+Conditionals & Loops
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

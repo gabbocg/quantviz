@@ -1,0 +1,11 @@
+# Installing R & RStudio {.hero data-anim="stagger-up" #s01-installation}
+
+::: {.section-badge}
+Module 01
+:::
+
+Installing R & RStudio
+
+::: {.lede}
+Placeholder — content arrives in a later task.
+:::

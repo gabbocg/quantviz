@@ -69,9 +69,144 @@
           ease: 'outQuad'
         });
       });
-    }
+    },
 
-    // Additional effects added in Task 5.
+    // vector-fill: cells in a horizontal row scale 0->1 and color-fill
+    'vector-fill': function (root) {
+      var data;
+      try { data = JSON.parse(root.dataset.vector || '[]'); } catch (e) { return; }
+      if (!data.length) return;
+      if (!root.querySelector('.vec-row')) {
+        var row = document.createElement('div');
+        row.className = 'vec-row';
+        data.forEach(function (v) {
+          var c = document.createElement('span');
+          c.className = 'vec-cell';
+          c.textContent = String(v);
+          row.appendChild(c);
+        });
+        root.appendChild(row);
+      }
+      var cells = root.querySelectorAll('.vec-cell');
+      if (REDUCE) { cells.forEach(function (c) { c.style.transform = 'scale(1)'; c.style.opacity = 1; }); return; }
+      cells.forEach(function (c) { c.style.transform = 'scale(0)'; c.style.opacity = 0; });
+      window.anime.animate(cells, {
+        scale: [0, 1],
+        opacity: [0, 1],
+        duration: 360,
+        delay: window.anime.stagger(60),
+        ease: 'outBack'
+      });
+    },
+
+    // matrix-grid: 2D cells fill row-by-row
+    'matrix-grid': function (root) {
+      var rows, cols, data;
+      try { data = JSON.parse(root.dataset.matrix || '[]'); } catch (e) { return; }
+      rows = data.length; cols = rows ? data[0].length : 0;
+      if (!rows || !cols) return;
+      if (!root.querySelector('.mat-grid')) {
+        var grid = document.createElement('div');
+        grid.className = 'mat-grid';
+        grid.style.gridTemplateColumns = 'repeat(' + cols + ', auto)';
+        data.forEach(function (row) {
+          row.forEach(function (v) {
+            var c = document.createElement('span');
+            c.className = 'mat-cell';
+            c.textContent = String(v);
+            grid.appendChild(c);
+          });
+        });
+        root.appendChild(grid);
+      }
+      var cells = root.querySelectorAll('.mat-cell');
+      if (REDUCE) { cells.forEach(function (c) { c.style.opacity = 1; }); return; }
+      cells.forEach(function (c) { c.style.opacity = 0; });
+      window.anime.animate(cells, {
+        opacity: [0, 1],
+        duration: 280,
+        delay: window.anime.stagger(50, { grid: [cols, rows], from: 'first' }),
+        ease: 'outQuad'
+      });
+    },
+
+    // line-draw: animate strokeDashoffset on SVG <path class="draw">
+    'line-draw': function (root) {
+      var paths = root.querySelectorAll('svg path.draw');
+      paths.forEach(function (p) {
+        var len = p.getTotalLength();
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = REDUCE ? 0 : len;
+      });
+      if (REDUCE || !paths.length) return;
+      window.anime.animate(paths, {
+        strokeDashoffset: [function (el) { return el.getTotalLength(); }, 0],
+        duration: 900,
+        ease: 'outCubic'
+      });
+    },
+
+    // count-up: any element matching .count-up with data-final tweens its text 0 -> final
+    'count-up': function (root) {
+      var nodes = root.querySelectorAll('.count-up[data-final]');
+      if (!nodes.length) return;
+      nodes.forEach(function (n) {
+        var final = parseFloat(n.dataset.final);
+        var decimals = parseInt(n.dataset.decimals || '0', 10);
+        if (REDUCE) { n.textContent = final.toFixed(decimals); return; }
+        var obj = { v: 0 };
+        window.anime.animate(obj, {
+          v: final,
+          duration: 600,
+          ease: 'outQuad',
+          onUpdate: function () { n.textContent = obj.v.toFixed(decimals); }
+        });
+      });
+    },
+
+    // bracket-glow: pulse a box-shadow around any .bracket-target
+    'bracket-glow': function (root) {
+      var targets = root.querySelectorAll('.bracket-target');
+      if (!targets.length) return;
+      if (REDUCE) return;
+      window.anime.animate(targets, {
+        boxShadow: [
+          '0 0 0 0 rgba(155,107,216,0)',
+          '0 0 0 6px rgba(155,107,216,0.35)',
+          '0 0 0 0 rgba(155,107,216,0)'
+        ],
+        duration: 1100,
+        loop: 2,
+        ease: 'inOutQuad'
+      });
+    },
+
+    // pipe-flow: stages translate in left-to-right, arrows fade in between
+    'pipe-flow': function (root) {
+      var stages = root.querySelectorAll('.pipe-stage');
+      var arrows = root.querySelectorAll('.pipe-arrow');
+      if (!stages.length) return;
+      if (REDUCE) {
+        stages.forEach(function (s) { s.style.opacity = 1; s.style.transform = 'none'; });
+        arrows.forEach(function (a) { a.style.opacity = 1; });
+        return;
+      }
+      stages.forEach(function (s) { s.style.opacity = 0; s.style.transform = 'translateX(-12px)'; });
+      arrows.forEach(function (a) { a.style.opacity = 0; });
+      window.anime.animate(stages, {
+        opacity: [0, 1],
+        translateX: [-12, 0],
+        duration: 400,
+        delay: window.anime.stagger(180),
+        ease: 'outQuad'
+      });
+      window.anime.animate(arrows, {
+        opacity: [0, 1],
+        duration: 200,
+        delay: window.anime.stagger(180, { start: 180 }),
+        ease: 'outQuad'
+      });
+    }
   };
 
   function dispatch(slide) {

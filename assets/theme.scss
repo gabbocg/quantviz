@@ -129,3 +129,37 @@ $presentation-heading-color: #2D2438;
   border-radius: 4px;
   color: var(--ink);
 }
+
+// Animation helpers
+.vec-cell, .mat-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4em;
+  height: 2.4em;
+  margin: 0 4px;
+  background: var(--rule);
+  border-radius: 6px;
+  font-family: $font-family-monospace;
+  font-weight: 600;
+  color: #5B3F8C;
+}
+.vec-row { display: flex; gap: 8px; justify-content: center; }
+.mat-grid { display: grid; gap: 6px; justify-content: center; }
+.bracket-target { position: relative; display: inline-block; padding: 0 2px; border-radius: 4px; }
+.line-draw-svg path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.count-up { font-variant-numeric: tabular-nums; }
+.pipe-stage {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  padding: 8px 12px;
+  background: var(--bg-elev);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  font-family: $font-family-monospace;
+  font-size: 0.72em;
+  color: var(--accent-1);
+}
+.pipe-arrow { color: var(--ink-soft); font-size: 1.2em; margin: 0 6px; }

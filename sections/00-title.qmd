@@ -9,3 +9,10 @@ Introduction to R
 ::: {.lede}
 Placeholder — content arrives in a later task.
 :::
+
+## What we'll cover {data-anim="stagger-up"}
+
+- Installation and setup
+- R fundamentals: data structures, subsetting, control flow
+- Linear regression and visualization
+- The tidyverse

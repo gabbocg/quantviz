@@ -21,27 +21,29 @@ Out of scope: quizzes/exercises, translations beyond English, instructor speaker
 
 ## 2 · Source Material Summary
 
-The source deck has 17 sections:
+The source deck has 17 sections. This spec numbers them **0–16** throughout (the same numbering used in §3.1 file layout, §5.3 effect library, §6 content map, and §8 verification) — every `§N` reference below points at the file `sections/NN-…qmd`.
 
-1. Title & instructor
-2. R & RStudio installation
-3. RStudio (Posit) Cloud
-4. RStudio Projects
-5. Package management
-6. R Scripts
-7. Data Structures (overview)
-8. Vectors & Lists
-9. Matrices & Arrays
-10. Data Frames & Tibbles
-11. Subsetting (`[]`, `[[]]`, `$`)
-12. Conditionals & Loops
-13. Functions
-14. Linear Regression (uses facial-competence dataset)
-15. Visualization (`plot()`)
-16. Tidyverse overview
-17. Resources
+| New # | Module |
+|------:|--------|
+| 0 | Title & instructor |
+| 1 | R & RStudio installation |
+| 2 | Posit Cloud (renamed from RStudio Cloud) |
+| 3 | RStudio Projects |
+| 4 | Package management |
+| 5 | R Scripts |
+| 6 | Data Structures (overview) |
+| 7 | Vectors & Lists |
+| 8 | Matrices & Arrays |
+| 9 | Data Frames & Tibbles |
+| 10 | Subsetting (`[]`, `[[]]`, `$`) |
+| 11 | Conditionals & Loops |
+| 12 | Functions |
+| 13 | Linear Regression (originally used facial-competence dataset) |
+| 14 | Visualization (`plot()`) |
+| 15 | Tidyverse overview |
+| 16 | Resources |
 
-All sections are kept; section 14's dataset is swapped to **palmerpenguins** and sections 9/13/14 are retargeted to that dataset accordingly.
+All sections are kept; §13's dataset is swapped to **palmerpenguins** and §9/§13/§14 are retargeted to that dataset accordingly.
 
 ## 3 · Architecture
 
@@ -89,8 +91,7 @@ quantviz/
 
 ### 3.2 Include Composition
 
-`index.qmd` is a thin master file: YAML frontmatter, then 17 lines of the form
-`{{< include sections/NN-name.qmd >}}`. Each partial owns the slides for its module (heading levels `#` for module break, `##` for individual slides). This gives one cohesive deck while keeping each module editable in isolation.
+`index.qmd` is a thin master file: YAML frontmatter, then **17 explicit `{{< include >}}` lines** (one per file, no globbing — explicit ordering and easy reordering). Each partial owns the slides for its module (heading levels `#` for module break, `##` for individual slides). This gives one cohesive deck while keeping each module editable in isolation.
 
 ### 3.3 Why Not Alternatives
 
@@ -215,7 +216,7 @@ Each row: one `.qmd` partial. Slide counts are estimates. Animation column indic
 | 15 | `15-tidyverse.qmd` | 4 | readr/tidyr/dplyr/ggplot2/purrr; `%>%` / `\|>` mini-demo | `pipe-flow`, `stagger-up` |
 | 16 | `16-resources.qmd` | 2 | R4DS, Advanced R, cheatsheets, follow-ups | `stagger-up` |
 
-**Total: ~53 slides.** Each section opens with a hero divider (badge + module title + gradient underline). Each module ends with a single-slide *Recap* fragment (3 bullets) — a pedagogical add-on absent from the original.
+**Total: ~53 content slides + 17 module recaps ≈ 70 slides.** Each section opens with a hero divider (badge + module title + gradient underline). Each module ends with a single dedicated *Recap* slide (3 bullets) — a pedagogical add-on absent from the original, **not** included in the per-section slide counts above (one extra slide per module on top of the count shown).
 
 ### 6.1 Translations & Substitutions
 
@@ -274,7 +275,7 @@ knitr:
 R dependencies pinned via **renv**:
 
 - `renv::init()` at repo root → `renv.lock` committed
-- Packages: `palmerpenguins`, `dplyr`, `tibble`, `ggplot2`, `readr`, `tidyr`, `purrr`, plus `knitr` and `rmarkdown` as Quarto dependencies
+- Packages: `palmerpenguins`, `dplyr`, `tibble`, `ggplot2`, `readr`, `tidyr`, `purrr`, plus `knitr` as the Quarto execution engine
 - `renv/library/` ignored; `renv.lock` committed
 - README documents `renv::restore()` as the bootstrap step
 

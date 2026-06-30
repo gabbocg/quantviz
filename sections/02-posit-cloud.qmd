@@ -1,11 +1,42 @@
-# Posit Cloud {.hero data-anim="stagger-up" #s02-posit-cloud}
+# Posit Cloud {.hero #s02-posit-cloud}
 
 ::: {.section-badge}
-Module 02
+Module 2
 :::
 
 Posit Cloud
 
 ::: {.lede}
-Placeholder — content arrives in a later task.
+A browser-based RStudio when you can't (or don't want to) install locally.
 :::
+
+## What you get
+
+::: {.lede}
+[posit.cloud](https://posit.cloud) — full RStudio in the browser, free tier available.
+:::
+
+- Same IDE, no install — useful for shared workshops or low-spec machines
+- Each project is its own container; state persists between sessions
+- File upload/download via the Files pane
+
+## Free tier limits {data-anim="stagger-up"}
+
+- **1 GB RAM** per project (heavier workloads need a paid tier)
+- **1 CPU** per project
+- **25 project hours/month** soft cap
+- **15-minute** idle timeout
+
+For this course the free tier is fine. For research workloads, install locally.
+
+---
+
+::: {.section-badge}
+Recap
+:::
+
+## Module 2 · Recap {data-anim="stagger-up"}
+
+- Posit Cloud = RStudio in a browser tab
+- Free tier: 1 GB RAM, 1 CPU, 25 h/month — enough for teaching
+- Local install scales further; Cloud is the zero-friction starting line

@@ -1,11 +1,65 @@
-# Package Management {.hero data-anim="stagger-up" #s04-packages}
+# Package Management {.hero #s04-packages}
 
 ::: {.section-badge}
-Module 04
+Module 4
 :::
 
 Package Management
 
 ::: {.lede}
-Placeholder — content arrives in a later task.
+Install once, load every session, update on your own schedule.
 :::
+
+## install · library · update {data-anim="code-type"}
+
+```r
+# Install (writes to your library — do this once per package)
+install.packages("dplyr")
+
+# Load (attaches the package — do this every session)
+library(dplyr)
+
+# Update (refresh installed versions)
+update.packages(ask = FALSE)
+```
+
+`install.packages()` writes to disk. `library()` pulls a package into the
+current R session's search path.
+
+## Where do packages come from? {data-anim="stagger-up"}
+
+- **CRAN** — the default. 20k+ packages, peer-reviewed for installability.
+- **Bioconductor** — life-science / bioinformatics ecosystem
+  ```r
+  install.packages("BiocManager")
+  BiocManager::install("DESeq2")
+  ```
+- **GitHub** — bleeding edge, development versions
+  ```r
+  install.packages("pak")
+  pak::pkg_install("tidyverse/dplyr")
+  ```
+
+## Reproducibility: renv {data-anim="code-type"}
+
+```r
+# Snapshot the exact package versions your project uses
+install.packages("renv")
+renv::init()         # creates renv.lock
+renv::snapshot()     # update the lockfile after installing new packages
+renv::restore()      # reinstall the locked versions on a new machine
+```
+
+This deck itself is reproduced with `renv::restore()`.
+
+---
+
+::: {.section-badge}
+Recap
+:::
+
+## Module 4 · Recap {data-anim="stagger-up"}
+
+- `install.packages()` once · `library()` every session
+- CRAN by default; Bioconductor and GitHub when needed
+- `renv` pins versions for reproducible builds

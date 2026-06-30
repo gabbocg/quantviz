@@ -1,11 +1,44 @@
-# R Scripts {.hero data-anim="stagger-up" #s05-scripts}
+# R Scripts {.hero #s05-scripts}
 
 ::: {.section-badge}
-Module 05
+Module 5
 :::
 
 R Scripts
 
 ::: {.lede}
-Placeholder — content arrives in a later task.
+A `.R` file is a recipe. Run it from top to bottom and you get the same result every time.
 :::
+
+## Run-line vs source {data-anim="code-type"}
+
+```r
+# Run the current line: Cmd/Ctrl + Enter
+mean(1:10)
+
+# Run the whole script: source("analysis.R")
+source("R/01-clean.R")
+```
+
+- **Run-line** during exploration — fast feedback
+- **source()** for finished, reproducible passes
+
+## Anatomy of a clean script {data-anim="stagger-up"}
+
+- **Header comment** — what the script does, who wrote it, when
+- **Setup block** — `library(...)` calls grouped at the top
+- **One purpose per script** — `01-clean.R`, `02-fit.R`, `03-plot.R`
+- **No `setwd()`** — projects handle the working directory
+- **No `rm(list = ls())`** — restart R instead
+
+---
+
+::: {.section-badge}
+Recap
+:::
+
+## Module 5 · Recap {data-anim="stagger-up"}
+
+- `.R` files are reproducible recipes
+- Run-line for exploration; `source()` for the final pass
+- One purpose per script; libraries at the top; no `setwd()` or `rm(ls())`

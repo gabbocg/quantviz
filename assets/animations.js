@@ -75,7 +75,7 @@
     'vector-fill': function (root) {
       var data;
       try { data = JSON.parse(root.dataset.vector || '[]'); } catch (e) { return; }
-      if (!data.length) return;
+      if (!Array.isArray(data) || !data.length) return;
       if (!root.querySelector('.vec-row')) {
         var row = document.createElement('div');
         row.className = 'vec-row';
@@ -103,8 +103,10 @@
     'matrix-grid': function (root) {
       var rows, cols, data;
       try { data = JSON.parse(root.dataset.matrix || '[]'); } catch (e) { return; }
-      rows = data.length; cols = rows ? data[0].length : 0;
-      if (!rows || !cols) return;
+      if (!Array.isArray(data) || !data.length) return;
+      rows = data.length;
+      cols = Array.isArray(data[0]) ? data[0].length : 0;
+      if (!cols) return;
       if (!root.querySelector('.mat-grid')) {
         var grid = document.createElement('div');
         grid.className = 'mat-grid';
@@ -151,12 +153,12 @@
       var nodes = root.querySelectorAll('.count-up[data-final]');
       if (!nodes.length) return;
       nodes.forEach(function (n) {
-        var final = parseFloat(n.dataset.final);
+        var target = parseFloat(n.dataset.final);
         var decimals = parseInt(n.dataset.decimals || '0', 10);
-        if (REDUCE) { n.textContent = final.toFixed(decimals); return; }
+        if (REDUCE) { n.textContent = target.toFixed(decimals); return; }
         var obj = { v: 0 };
         window.anime.animate(obj, {
-          v: final,
+          v: target,
           duration: 600,
           ease: 'outQuad',
           onUpdate: function () { n.textContent = obj.v.toFixed(decimals); }

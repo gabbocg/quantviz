@@ -147,7 +147,10 @@ $presentation-heading-color: #2D2438;
 .vec-row { display: flex; gap: 8px; justify-content: center; }
 .mat-grid { display: grid; gap: 6px; justify-content: center; }
 .bracket-target { position: relative; display: inline-block; padding: 0 2px; border-radius: 4px; }
-.line-draw-svg path.draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+// JS sets stroke-dasharray + dashoffset from getTotalLength() on dispatch.
+// Until then, hide via opacity so the path doesn't flash visible.
+.line-draw-svg path.draw { opacity: 0; }
+.line-draw-svg path.draw[style*="stroke-dashoffset"] { opacity: 1; }
 .count-up { font-variant-numeric: tabular-nums; }
 .pipe-stage {
   display: inline-flex;

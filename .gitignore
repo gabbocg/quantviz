@@ -1,2 +1,9 @@
 .superpowers/
 .DS_Store
+_site/
+.quarto/
+.Rproj.user/
+.Rhistory
+renv/library/
+renv/python/
+renv/staging/

@@ -86,9 +86,12 @@
   }
 
   function runAnimsFor(slide) {
-    // Try immediately, and again after a tick in case fonts / syntax highlight haven't settled
+    // Retry until anime.js has loaded, then dispatch exactly once.
+    if (!animeReady()) {
+      setTimeout(function () { runAnimsFor(slide); }, 50);
+      return;
+    }
     dispatch(slide);
-    setTimeout(function () { dispatch(slide); }, 50);
   }
 
   function init() {

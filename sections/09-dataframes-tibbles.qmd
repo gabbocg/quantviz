@@ -1,11 +1,87 @@
-# Data Frames & Tibbles {.hero data-anim="stagger-up" #s09-dataframes-tibbles}
+# Data Frames & Tibbles {.hero #s09-dataframes-tibbles}
 
 ::: {.section-badge}
-Module 09
+Module 9
 :::
 
 Data Frames & Tibbles
 
 ::: {.lede}
-Placeholder — content arrives in a later task.
+Each column is a variable, each row is an observation. The everyday R table.
 :::
+
+## Meet the penguins {data-anim="code-type"}
+
+```{r}
+library(palmerpenguins)
+library(tibble)
+
+penguins
+```
+
+The `penguins` dataset is a **tibble**: 344 rows × 8 columns of measurements
+on three species of penguin from the Palmer Archipelago, Antarctica.
+
+## `data.frame` vs `tibble` {data-anim="stagger-up"}
+
+::: {.columns}
+
+::: {.column width="50%"}
+**`data.frame`** (base R, since 1990s)
+
+- Prints **all** rows by default
+- Coerces strings to factors (historically)
+- `df[, "col"]` may return a vector or a frame
+:::
+
+::: {.column width="50%"}
+**`tibble`** (tidyverse, modern)
+
+- Prints **10 rows** + column types
+- Strings stay strings, no factor surprise
+- `tb[, "col"]` always returns a tibble
+:::
+
+:::
+
+```{r}
+class(penguins)
+```
+
+A tibble *is* a data frame (it inherits from `data.frame`), with friendlier
+defaults — anything that takes a `data.frame` takes a tibble.
+
+## Column access {data-anim="code-type"}
+
+```{r}
+# Single column as a vector
+head(penguins$bill_length_mm, 5)
+
+# Subset of columns as a tibble
+penguins[, c("species", "bill_length_mm")]
+```
+
+The `$` operator is the most common way to grab a single column.
+
+## Quick summary {data-anim="code-type"}
+
+```{r}
+dim(penguins)
+names(penguins)
+summary(penguins$body_mass_g)
+```
+
+`summary()` adapts to the column type: numeric columns get five-number
+summaries; factors get counts.
+
+---
+
+::: {.section-badge}
+Recap
+:::
+
+## Module 9 · Recap {data-anim="stagger-up"}
+
+- Each column = one variable; each row = one observation
+- Tibbles print friendlier and behave more predictably than base `data.frame`
+- `$col`, `summary()`, and `head()` are your three first calls on any new frame

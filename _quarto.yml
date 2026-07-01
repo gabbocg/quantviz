@@ -10,6 +10,9 @@ format:
     theme: [default, assets/theme.scss]
     slide-number: c/t
     progress: true
+    controls: true
+    controls-layout: edges
+    controls-back-arrows: visible
     transition: fade
     transition-speed: fast
     history: true
@@ -21,7 +24,8 @@ format:
       - file: assets/head.html
     include-after-body:
       - file: assets/animations.js
-    code-line-numbers: true
+    code-line-numbers: false
+    code-copy: false
     highlight-style: assets/syntax.theme
 
 execute:

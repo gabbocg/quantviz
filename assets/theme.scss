@@ -1,110 +1,248 @@
 /*-- scss:defaults --*/
 
-// Tidyverse-Friendly palette
-$body-bg: #FBF7F0;
-$body-color: #2D2438;
-$link-color: #5B8FE0;
-$selection-bg: rgba(155, 107, 216, 0.25);
+// Sandstone-inspired palette on a pure-white ground
+$body-bg: #FFFFFF;
+$body-color: #3E3F3A;
+$link-color: #325D88;
+$link-color-hover: #2A4E72;
+$selection-bg: rgba(50, 93, 136, 0.22);
+$selection-color: #FFFFFF;
 
 // Code blocks
 $code-bg: #FFFFFF;
-$code-color: #2D2438;
-$code-block-bg: #FFFFFF;
+$code-color: #3E3F3A;
+$code-block-bg: #F6F8FA;
+$code-block-border-color: #E5E7EB;
 
-// Typography
-$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+// Typography — Roboto body, JetBrains Mono code
+$font-family-sans-serif: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
 $font-family-monospace: "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
-$presentation-font-size-root: 32px;
-$presentation-h1-font-size: 1.6em;
-$presentation-h2-font-size: 1.25em;
+$presentation-font-size-root: 36px;
+$presentation-line-height: 1.5;
+$presentation-h1-font-size: 2em;
+$presentation-h2-font-size: 1.35em;
+$presentation-h3-font-size: 1.05em;
 $presentation-heading-font-weight: 700;
-$presentation-heading-color: #2D2438;
+$presentation-heading-color: #3E3F3A;
+$presentation-heading-line-height: 1.15;
 
 /*-- scss:rules --*/
 
 :root {
-  --bg: #FBF7F0;
+  --bg: #FFFFFF;
   --bg-elev: #FFFFFF;
-  --ink: #2D2438;
-  --ink-soft: #5B5168;
-  --accent-1: #9B6BD8;
-  --accent-2: #5B8FE0;
-  --accent-grad: linear-gradient(90deg, var(--accent-1), var(--accent-2));
-  --ok: #2D8F6F;
-  --warn: #D9883F;
-  --rule: #EAE3F3;
+  --bg-soft: #F6F8FA;       // GitHub-docs grey for code/output panels
+  --ink: #3E3F3A;
+  --ink-soft: #6E7681;
+  --ink-dim: #B0B7C0;
+  --accent-1: #325D88;      // navy — primary
+  --accent-1-deep: #2A4E72;
+  --accent-2: #93C54B;      // olive — success / output
+  --accent-3: #F47C3C;      // orange — warn / attention
+  --accent-4: #B94A48;      // brick — logical/factor tokens
+  --rule: #E5E7EB;
+  --rule-soft: #F0F2F5;
 }
 
+// Global reveal tuning
 .reveal {
   letter-spacing: -0.005em;
+  font-weight: 400;
 }
-
 .reveal h1, .reveal h2, .reveal h3 {
-  letter-spacing: -0.015em;
+  letter-spacing: -0.018em;
+  font-weight: 700;
 }
 
-// Title underline (the 48px gradient bar)
+// Slide title underline — accent bar
 .reveal section > h2::after {
   content: "";
   display: block;
   width: 48px;
   height: 3px;
-  margin-top: 0.4em;
-  background: var(--accent-grad);
+  margin-top: 0.55em;
+  background: var(--accent-1);
   border-radius: 2px;
 }
 
-// Section badge (small uppercase label above titles)
+// Section badge — small uppercase label above a title
 .section-badge {
   font-size: 0.42em;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent-1);
   font-weight: 600;
-  margin-bottom: 0.4em;
+  margin-bottom: 0.5em;
 }
 
-// Hero slides
+// Hero slide — full-bleed cream, oversized title, muted framing
 .reveal section.hero {
-  background: var(--accent-grad);
-  color: white;
+  background: var(--bg);
 }
-.reveal section.hero h1,
-.reveal section.hero h2,
+.reveal section.hero > * {
+  text-align: left;
+}
+.reveal section.hero h1 {
+  font-size: 2.4em;
+  color: var(--ink);
+  margin-top: 0.15em;
+  line-height: 1.05;
+}
+.reveal section.hero h1::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 3px;
+  background: var(--accent-1);
+  margin-top: 0.5em;
+  border-radius: 2px;
+}
 .reveal section.hero .section-badge {
-  color: white;
+  color: var(--accent-1);
+  font-size: 0.4em;
 }
-.reveal section.hero h2::after {
-  background: white;
+.reveal section.hero .lede {
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-top: 1em;
+  max-width: 78%;
 }
 
-// Code blocks
+// Code blocks — soft grey inset panel, navy left ledger (code = "input")
 .reveal pre {
-  background: var(--bg-elev);
-  border: 1px solid var(--rule);
-  border-radius: 6px;
-  padding: 0.6em 0.8em;
-  box-shadow: 0 1px 0 rgba(45, 36, 56, 0.04);
+  background: var(--bg-soft);
+  border: none;
+  border-left: 3px solid var(--accent-1);
+  border-radius: 0 4px 4px 0;
+  padding: 0.5em 0.9em;
+  box-shadow: none;
+  margin: 0.4em 0;
+  overflow: visible;
 }
 .reveal code {
   font-family: $font-family-monospace;
   font-size: 0.78em;
+  line-height: 1.55;
+}
+.reveal pre code {
+  padding: 0;
+  color: var(--ink);
+  background: transparent;
+}
+// Kill Quarto's outer sourceCode div wrapper (scope to div so it doesn't
+// clobber the <pre class="sourceCode"> background)
+.reveal div.sourceCode {
+  background: transparent;
+  border: none;
+}
+// Force soft grey on any pre that carries .sourceCode
+.reveal pre.sourceCode {
+  background: var(--bg-soft);
+}
+// Ensure code + output wrappers stretch full-width so widths line up
+.reveal .code-copy-outer-scaffold,
+.reveal .cell,
+.reveal .cell > .cell-output,
+.reveal div.sourceCode.cell-code {
+  display: block;
+  width: 100%;
+  padding-right: 0;
+  margin-right: 0;
 }
 
-// Progress bar
+// Kill Quarto's copy button — visual noise on projected slides
+.reveal .code-copy-button,
+.reveal .code-copy-outer-scaffold > button {
+  display: none !important;
+}
+
+// Kill line numbers from executed chunks
+.reveal pre.numberSource code > span > a[href=""] {
+  display: none;
+}
+.reveal pre.numberSource {
+  padding-left: 0.75em;
+}
+.reveal pre.numberSource code > span {
+  padding-left: 0 !important;
+  border-left: none !important;
+}
+
+// Executed-chunk wrapper: strip extra padding so it matches static ```r blocks
+.reveal .cell {
+  margin: 0.4em 0;
+}
+.reveal .cell .sourceCode {
+  margin: 0;
+}
+
+// R output blocks — same panel style as code, olive left border
+.reveal .cell-output {
+  margin-top: 0.1em;
+}
+.reveal .cell-output pre,
+.reveal .cell-output-stdout pre,
+.reveal .cell-output-display pre {
+  background: var(--bg-soft);
+  border: none;
+  border-left: 3px solid var(--accent-2);
+  border-radius: 0 4px 4px 0;
+  color: var(--ink);
+  box-shadow: none;
+  padding: 0.5em 0.9em;
+  margin: 0.2em 0 0.4em 0;
+}
+
+// Inline code — thin outline, palette-consistent
+.reveal :not(pre) > code {
+  background: var(--bg-soft);
+  color: var(--accent-1);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 0.82em;
+}
+
+// Progress bar — accent color
 .reveal .progress {
   color: var(--accent-1);
   height: 4px;
 }
 .reveal .progress span {
-  background: var(--accent-grad);
+  background: var(--accent-1);
+}
+
+// Reveal.js navigation arrows — match the palette
+.reveal .controls {
+  color: var(--accent-1);
+  opacity: 0.75;
+}
+.reveal .controls:hover {
+  opacity: 1;
+}
+.reveal .controls button.enabled {
+  color: var(--accent-1);
+}
+.reveal .controls button.enabled:hover {
+  color: var(--accent-1-deep);
+}
+.reveal .controls button.enabled.fragmented {
+  color: var(--accent-1);
+}
+
+// Slide number chrome — quiet
+.reveal .slide-number {
+  color: var(--ink-dim);
+  background: transparent;
+  font-family: $font-family-monospace;
+  font-size: 0.55em;
+  letter-spacing: 0.06em;
 }
 
 // Utilities
 .lede {
   font-size: 1.05em;
   color: var(--ink-soft);
-  line-height: 1.45;
+  line-height: 1.55;
 }
 .muted { color: var(--ink-soft); }
 .tag {
@@ -114,7 +252,7 @@ $presentation-heading-color: #2D2438;
   background: var(--rule);
   color: var(--accent-1);
   border-radius: 3px;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 600;
 }
@@ -130,7 +268,43 @@ $presentation-heading-color: #2D2438;
   color: var(--ink);
 }
 
-// Animation helpers
+// Emphasis
+.reveal em, .reveal i { color: var(--ink); }
+.reveal strong, .reveal b { color: var(--ink); }
+
+// Links — subtle underline via text-decoration, not a heavy border-bottom
+.reveal a {
+  color: var(--accent-1);
+  text-decoration: underline;
+  text-decoration-color: rgba(50, 93, 136, 0.28);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  border-bottom: none;
+}
+.reveal a:hover {
+  color: var(--accent-1-deep);
+  text-decoration-color: var(--accent-1);
+}
+
+// Tables — quiet editorial look
+.reveal table {
+  border-collapse: collapse;
+  font-size: 0.68em;
+}
+.reveal table th {
+  background: var(--bg-soft);
+  color: var(--accent-1);
+  border-bottom: 2px solid var(--accent-1);
+  padding: 6px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+.reveal table td {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+
+// Animation helpers (from T5)
 .vec-cell, .mat-cell {
   display: inline-flex;
   align-items: center;
@@ -138,31 +312,35 @@ $presentation-heading-color: #2D2438;
   width: 2.4em;
   height: 2.4em;
   margin: 0 4px;
-  background: var(--rule);
-  border-radius: 6px;
+  background: var(--bg-soft);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
   font-family: $font-family-monospace;
   font-weight: 600;
-  color: #5B3F8C;
+  color: var(--accent-1);
 }
 .vec-row { display: flex; gap: 8px; justify-content: center; }
 .mat-grid { display: grid; gap: 6px; justify-content: center; }
 .bracket-target { position: relative; display: inline-block; padding: 0 2px; border-radius: 4px; }
+
 // JS sets stroke-dasharray + dashoffset from getTotalLength() on dispatch.
 // Until then, hide via opacity so the path doesn't flash visible.
 .line-draw-svg path.draw { opacity: 0; }
 .line-draw-svg path.draw[style*="stroke-dashoffset"] { opacity: 1; }
-.count-up { font-variant-numeric: tabular-nums; }
+
+.count-up { font-variant-numeric: tabular-nums; color: var(--accent-1); font-weight: 700; }
 .pipe-stage {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 80px;
-  padding: 8px 12px;
+  min-width: 88px;
+  padding: 10px 14px;
   background: var(--bg-elev);
   border: 1px solid var(--rule);
-  border-radius: 6px;
+  border-radius: 4px;
   font-family: $font-family-monospace;
   font-size: 0.72em;
   color: var(--accent-1);
+  font-weight: 600;
 }
 .pipe-arrow { color: var(--ink-soft); font-size: 1.2em; margin: 0 6px; }

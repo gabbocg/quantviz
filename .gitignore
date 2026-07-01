@@ -9,3 +9,5 @@ renv/python/
 renv/staging/
 
 **/*.quarto_ipynb
+
+/.quarto/

@@ -1,11 +1,60 @@
-# Data Structures {.hero data-anim="stagger-up" #s06-data-structures}
+# Data Structures {.hero #s06-data-structures}
 
 ::: {.section-badge}
-Module 06
+Module 6
 :::
 
 Data Structures
 
 ::: {.lede}
-Placeholder — content arrives in a later task.
+Two questions classify almost every R object: **how many dimensions** and **is the content homogeneous**.
 :::
+
+## The classifying 2×2 {data-anim="stagger-up"}
+
+| | **Homogeneous** | **Heterogeneous** |
+|---|---|---|
+| **1-D** | atomic vector | list |
+| **2-D** | matrix | data frame |
+| **n-D** | array | (rare) |
+
+- *Homogeneous* = every element the same type
+- *Heterogeneous* = elements can be different types
+
+## When to use what
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Reach for a vector** when every element is the same type and order matters.
+:::
+
+::: {.column width="50%"}
+**Reach for a list** when elements have different types or shapes — fit models, nested API responses, etc.
+:::
+
+:::
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Reach for a matrix** when you do linear algebra: every cell the same type, fixed dimensions.
+:::
+
+::: {.column width="50%"}
+**Reach for a data frame** when each column is a variable and each row is an observation.
+:::
+
+:::
+
+---
+
+::: {.section-badge}
+Recap
+:::
+
+## Module 6 · Recap {data-anim="stagger-up"}
+
+- Two axes: dimensionality and homogeneity
+- 1-D × homogeneous = vector · 2-D × heterogeneous = data frame
+- "Same-type and ordered" → vector; "tabular columns of mixed types" → data frame

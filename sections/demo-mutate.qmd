@@ -1,0 +1,46 @@
+# dplyr::mutate() {.mu-slide #demo-mutate-slide}
+
+::: {.section-badge}
+Add a computed column · log returns
+:::
+
+::: {.fi-stage-wrap}
+<div id="mu-stage"></div>
+:::
+
+[]{.fragment .fi-frag id="mu-frag-1"}
+[]{.fragment .fi-frag id="mu-frag-2"}
+
+```{=html}
+<script>
+// AAPL close prices (2024-01-02 → 2024-01-09) with log_return pre-computed.
+// Engine calls TRANSFORM(row[1]) with only the current-row close — we can't
+// compute log(x / lag(x)) inside the transform, so we pre-compute the return
+// into row[2] and use an identity transform that just pulls that value.
+window.MU_DATA = [
+  ['2024-01-02', 185.64,  ''      ],
+  ['2024-01-03', 184.25, -0.00752 ],
+  ['2024-01-04', 181.91, -0.01278 ],
+  ['2024-01-05', 181.18, -0.00402 ],
+  ['2024-01-08', 185.56,  0.02388 ],
+  ['2024-01-09', 185.14, -0.00227 ]
+];
+window.MU_SRC_COL   = 'close';
+window.MU_NEW_COL   = 'log_return';
+window.MU_LABEL_COL = 'date';
+window.MU_CODE_LINE = 'mutate(log_return = log(close / lag(close)))';
+window.MU_COLORS    = ['#325D88'];
+// Identity transform — the value was pre-computed into row[2] above.
+// The engine's build() reads row[0]/row[1]; TRANSFORM is passed row[1] (close).
+// Look up by index (order of appearance) rather than by floating-point equality
+// on closeVal — safer against any coercion the engine might apply.
+window.MU_TRANSFORM = (function () {
+  var i = -1;
+  return function (_closeVal) {
+    i = (i + 1) % window.MU_DATA.length;
+    var lr = window.MU_DATA[i][2];
+    return lr === '' ? '' : lr.toFixed(5);
+  };
+})();
+</script>
+```

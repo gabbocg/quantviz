@@ -154,7 +154,8 @@
   }
   function buildPoints(svg) {
     if (GEOM === 'line') {
-      // Group points by series index, then draw one polyline per series
+      // Group points by series index (p[2] must be a 0-based integer that
+      // indexes into COLORS/SPECIES), then draw one polyline per series.
       var bySeries = {};
       PTS.forEach(function (p) {
         var k = p[2];
@@ -189,7 +190,10 @@
   }
 
   // ---- code listing — compact form to fit alongside the plot ----
-  var CODE_HTML =
+  // window.GG_CODE_HTML lets a demo qmd override the code panel so it stays
+  // in sync with the plot labels (otherwise the code shows penguins even when
+  // the plot has been retargeted to another dataset).
+  var CODE_HTML = window.GG_CODE_HTML ||
     '<span data-blk="coord"><span class="gg-fn">ggplot</span>(penguins,\n' +
     '       <span class="gg-fn">aes</span>(bill_length_mm, body_mass_g, <span class="gg-arg">color</span> = species)) +</span>\n' +
     '<span data-blk="points">  <span class="gg-fn">geom_point</span>() +</span>\n' +
@@ -232,7 +236,6 @@
   }
 
   function render(stage) {
-    console.log('[ggplot-anim] render stage=' + stage);
     if (!build()) return;
     if (typeof window.anime === 'undefined') { setTimeout(function(){ render(stage); }, 60); return; }
     var anime = window.anime;

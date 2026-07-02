@@ -737,6 +737,16 @@ window.GG_LABS = {
   color: 'Ticker'
 };
 
+// Keep the code panel in sync with the finance plot (T3 exposed GG_CODE_HTML).
+window.GG_CODE_HTML =
+  '<span data-blk="coord"><span class="gg-fn">ggplot</span>(prices,\n' +
+  '       <span class="gg-fn">aes</span>(date, close, <span class="gg-arg">color</span> = ticker)) +</span>\n' +
+  '<span data-blk="points">  <span class="gg-fn">geom_line</span>() +</span>\n' +
+  '<span data-blk="smooth">  <span class="gg-fn">geom_smooth</span>() +</span>\n' +
+  '<span data-blk="labs">  <span class="gg-fn">labs</span>(<span class="gg-arg">title</span> = <span class="gg-str">"Daily closing prices (2015–2024)"</span>,\n' +
+  '       <span class="gg-arg">x</span> = <span class="gg-str">"Date"</span>,\n' +
+  '       <span class="gg-arg">y</span> = <span class="gg-str">"Adjusted close (USD)"</span>)</span>';
+
 // Approximate monthly-sample close levels per ticker.
 // AAPL rises 25 → 195, SPY rises 200 → 470, GLD 110 → 240.
 window.GG_DATA = (function () {

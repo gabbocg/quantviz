@@ -1,0 +1,86 @@
+# ggplot2, deconstructed {.gg-slide #demo-ggplot-slide}
+
+::: {.section-badge}
+Layer by layer · price time series
+:::
+
+::: {.fi-stage-wrap}
+<div id="gg-stage"></div>
+:::
+
+[]{.fragment .fi-frag id="gg-lay"}
+[]{.fragment .fi-frag id="gg-explode"}
+[]{.fragment .fi-frag id="gg-focus-coord"}
+[]{.fragment .fi-frag id="gg-focus-points"}
+[]{.fragment .fi-frag id="gg-focus-smooth"}
+[]{.fragment .fi-frag id="gg-focus-labs"}
+[]{.fragment .fi-frag id="gg-collapse"}
+[]{.fragment .fi-frag id="gg-unrotate"}
+
+```{=html}
+<script>
+// x axis: months since 2015-01, y axis: adjusted close (USD).
+// ~40 monthly-sampled points per ticker (approximate hand-picked levels).
+window.GG_SERIES = ['AAPL', 'SPY', 'GLD'];
+window.GG_COLORS = ['#325D88', '#B94A48', '#557A3E'];
+window.GG_GEOM   = 'line';
+// Domains for a 10-year span (0 → 120 months) with adj-close approximate scale.
+window.GG_X_DOMAIN = [0, 120];
+window.GG_Y_DOMAIN = [0, 250];
+window.GG_X_BREAKS = [0, 24, 48, 72, 96, 120];   // year ticks (Jan-2015..2025)
+window.GG_Y_BREAKS = [0, 50, 100, 150, 200, 250];
+window.GG_X_MINOR  = [12, 36, 60, 84, 108];
+window.GG_Y_MINOR  = [25, 75, 125, 175, 225];
+window.GG_LABS = {
+  title: 'Daily closing prices (2015–2024)',
+  x:     'Months since Jan 2015',
+  y:     'Adjusted close (USD)',
+  color: 'Ticker'
+};
+
+// Keep the code panel in sync with the finance plot (T3 exposed GG_CODE_HTML).
+window.GG_CODE_HTML =
+  '<span data-blk="coord"><span class="gg-fn">ggplot</span>(prices,\n' +
+  '       <span class="gg-fn">aes</span>(date, close, <span class="gg-arg">color</span> = ticker)) +</span>\n' +
+  '<span data-blk="points">  <span class="gg-fn">geom_line</span>() +</span>\n' +
+  '<span data-blk="smooth">  <span class="gg-fn">geom_smooth</span>() +</span>\n' +
+  '<span data-blk="labs">  <span class="gg-fn">labs</span>(<span class="gg-arg">title</span> = <span class="gg-str">"Daily closing prices (2015–2024)"</span>,\n' +
+  '       <span class="gg-arg">x</span> = <span class="gg-str">"Date"</span>,\n' +
+  '       <span class="gg-arg">y</span> = <span class="gg-str">"Adjusted close (USD)"</span>)</span>';
+
+// Approximate monthly-sample close levels per ticker.
+// AAPL rises 25 → 195, SPY rises 200 → 470, GLD 110 → 240.
+window.GG_DATA = (function () {
+  var series = [
+    // AAPL (index 0)
+    { idx: 0, start: 25,  end: 195 },
+    // SPY (index 1)
+    { idx: 1, start: 200, end: 470 },
+    // GLD (index 2)
+    { idx: 2, start: 110, end: 240 }
+  ];
+  var out = [];
+  series.forEach(function (s) {
+    for (var m = 0; m <= 120; m += 3) {  // one point every 3 months = ~40 pts
+      var t = m / 120;
+      // gentle upward trajectory with a mild dip around month 66 (COVID-ish)
+      var dip = m >= 60 && m <= 72 ? -0.08 : 0;
+      var level = s.start + (s.end - s.start) * (t + dip);
+      out.push([m, +level.toFixed(1), s.idx]);
+    }
+  });
+  return out;
+})();
+
+// A single smoothed trend line across the whole time span (approximate).
+window.GG_SMOOTH = (function () {
+  var out = [];
+  for (var m = 0; m <= 120; m += 5) {
+    var t = m / 120;
+    var y = 100 + 100 * t;   // gentle linear trend as a stand-in
+    out.push([m, y, y - 20, y + 20]);
+  }
+  return out;
+})();
+</script>
+```

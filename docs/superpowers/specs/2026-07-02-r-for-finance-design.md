@@ -73,7 +73,8 @@ Each partial is one `sections/NN-*.qmd` file. No recap slides.
 - `assets/theme.scss` — Sandstone palette, code-block chrome, all demo class styling (`.fi-*`, `.mu-*`, `.pl-*`, `.pw-*`, `.gg-*`)
 - `assets/head.html` — Google Fonts (Roboto + JetBrains Mono), anime.js v4 CDN + vendor fallback
 - `assets/animations.js` / `animations.html` — 8-effect engine, dispatch, TM.gate infrastructure (via `mutate-anim.js` etc.)
-- All five `assets/js/*-anim.js` + wrappers — mutate, filter, pivot_longer, pivot_wider, ggplot deconstructed. Only their `window.*_DATA` config globals in the qmd files change; the JS logic stays 1:1
+- Four of the five `assets/js/*-anim.js` modules + wrappers — **mutate, filter, pivot_longer, pivot_wider** stay unchanged; only their `window.*_DATA` config globals in the qmd files change
+- **Exception**: `assets/js/ggplot-anim.js` gets a one-time refactor to expose `window.GG_*` config globals (data, axis domains, tick breaks, labs, and a `GG_GEOM` switch for `"line"` vs `"point"`). See §5.5 for the full field list. After that refactor, retargeting is a qmd-only edit like the other four
 - `assets/syntax.theme` — 3-color editorial R syntax
 - ORCID / title-slide / footer CSS overrides
 - `.gitignore`, `renv.lock`, `_freeze/` conventions
@@ -82,6 +83,7 @@ Each partial is one `sections/NN-*.qmd` file. No recap slides.
 
 - `tidyquant` — used only by `scripts/refresh-data.R` at CSV download time (not needed at render)
 - `lubridate` — dates (§6)
+- `zoo` — `rollmean` for rolling windows in §6 (likely already transitive from `tidyquant`, but listed explicitly for self-contained deps)
 - `broom` — `tidy()` on `lm()` output (§9)
 - `PerformanceAnalytics` — reference implementations of Sharpe, drawdown (§7 shows how to write your own then compares)
 - `gt` — polished tables in the Communicate module (§10)
@@ -125,7 +127,13 @@ sections/
 └── 11-resources.qmd
 ```
 
-`index.qmd` — update the `{{< include >}}` list to point at the 12 new files instead of the 17 old ones.
+`index.qmd` — update the `{{< include >}}` list to point at the 12 top-level files instead of the 17 old ones. The five `sections/demo-*.qmd` partials are **NOT included at the top level of `index.qmd`** anymore. Instead each demo qmd is included **inline within its parent module partial** via a nested `{{< include >}}`:
+
+- `sections/02-first-plot.qmd` includes `sections/demo-ggplot.qmd`
+- `sections/03-transform.qmd` includes `sections/demo-mutate.qmd` and `sections/demo-filter.qmd`
+- `sections/04-tidy.qmd` includes `sections/demo-pivot-longer.qmd` and `sections/demo-pivot-wider.qmd`
+
+This ensures each demo appears in the natural reading order of its concept, not as an out-of-context appendix.
 
 `scripts/check-render.sh` — update section-id greps to `s01-get-data … s11-resources`.
 
@@ -138,7 +146,8 @@ The five demo animations reuse their existing JS modules. Only the inline `<scri
 - Left table: 6 rows, columns `date | close` (2024-01-02 … 2024-01-09, AAPL closes)
 - Right table: 6 rows, columns `date | log_return`
 - Code line: `mutate(log_return = log(close / lag(close)))` — substring `log(close / lag(close))` highlighted navy
-- `TRANSFORM` function: `function(x, prev) { return Math.log(x/prev).toFixed(4); }` (approximate — first row is NA)
+
+**Engine constraint:** the current mutate module calls `TRANSFORM(d[1])` with only the current row's value — it does not pass the previous row, so a `log(x / lag(x))` computation cannot be done inside the transform. Chosen workaround: **pre-compute** log-returns in JavaScript at data-config time and store them in `MU_DATA` as `[date, close, log_return_precomputed]`, then use an **identity transform** `function(x) { return x.toFixed(4); }` that just pulls the pre-computed value. First row's log-return is stored as `NA` (rendered as empty string). No engine edits required.
 
 ### 5.2 `filter` demo → ticker + date filter
 
@@ -160,8 +169,23 @@ The five demo animations reuse their existing JS modules. Only the inline `<scri
 
 ### 5.5 ggplot2 deconstructed → price time series
 
-- Coord layer: date on x, price on y, 3 tickers as color scale (AAPL, SPY, GLD)
-- Points layer → **line segments** (`geom_line` semantics)
+**Engine constraint:** `assets/js/ggplot-anim.js` currently has all its data (`SPECIES`, `COLORS`, `PTS`, `SMOOTH`), axis ranges (`xd`, `yd`), tick breaks, layer builders, and axis-label strings **hardcoded** inside the IIFE. The other four demos expose `window.*_DATA` globals but ggplot does not.
+
+**Required edit:** `ggplot-anim.js` must be modified to read config from `window.GG_*` globals — this is the one exception to §4.1's "kept unchanged" rule for JS animation modules. Concretely, expose:
+
+- `window.GG_SERIES` — array of series names `["AAPL", "SPY", "GLD"]`
+- `window.GG_COLORS` — matching hex codes
+- `window.GG_DATA` — array of `[x, y, seriesIdx]` triples
+- `window.GG_SMOOTH` — array of `[x, fit, lower, upper]` for the smooth layer
+- `window.GG_X_DOMAIN`, `window.GG_Y_DOMAIN` — `[lo, hi]` numeric ranges
+- `window.GG_X_BREAKS`, `window.GG_Y_BREAKS` — tick label arrays
+- `window.GG_LABS` — `{ title, x, y, color }` object
+- Optional: `window.GG_GEOM = "line"` to switch from `geom_point` to `geom_line` (draw connected polyline instead of circles)
+
+Once exposed, retargeting is a `sections/demo-ggplot.qmd` script-block edit only:
+
+- Coord layer: date on x (numeric offset from 2015-01-01, in days), price on y, 3 tickers as color scale (AAPL, SPY, GLD)
+- Points layer replaced by **`geom_line` polyline** (`GG_GEOM = "line"`)
 - Smooth layer: `geom_smooth(method = "loess")` — a slow moving trend
 - Labs: title "Daily closing prices (2015–2024)", x = "Date", y = "Close (USD)", color = "Ticker"
 - Data: ~50 monthly-sampled points per ticker so the SVG stays performant

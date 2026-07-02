@@ -1,0 +1,61 @@
+# 6 · Dates & time series {.hero #s06-dates-ts}
+
+::: {.section-badge}
+Module 6 · Dates in R
+:::
+
+Working with time
+
+::: {.lede}
+`Date` objects in base R + `lubridate` for parsing / arithmetic + `zoo::rollmean` for rolling windows.
+:::
+
+## Parsing and formatting
+
+```{r}
+#| message: false
+library(lubridate)
+
+d <- ymd("2024-06-30")
+class(d)
+year(d);  month(d);  day(d);  wday(d, label = TRUE)
+d + months(3)   # forward three months
+d - years(1)    # a year ago
+```
+
+## Rolling averages with `zoo::rollmean`
+
+```{r}
+#| message: false
+library(readr); library(dplyr); library(zoo)
+
+aapl <- read_csv("data/AAPL.csv", show_col_types = FALSE) |>
+  mutate(
+    ma_20  = rollmean(adjusted, k = 20,  fill = NA, align = "right"),
+    ma_60  = rollmean(adjusted, k = 60,  fill = NA, align = "right"),
+    ma_200 = rollmean(adjusted, k = 200, fill = NA, align = "right")
+  )
+
+aapl |> select(date, adjusted, ma_20, ma_60, ma_200) |> tail(4)
+```
+
+`align = "right"` means the moving average at date *t* uses the *k* prior days including *t* — the causal convention traders use.
+
+## Quick moving-average chart
+
+```{r}
+#| message: false
+#| fig-align: center
+#| fig-width: 8
+#| fig-height: 4
+library(ggplot2); library(tidyr)
+
+aapl |>
+  select(date, adjusted, ma_60, ma_200) |>
+  pivot_longer(-date, names_to = "series", values_to = "value") |>
+  ggplot(aes(date, value, colour = series)) +
+  geom_line() +
+  theme_minimal() +
+  labs(title = "AAPL price with 60-day and 200-day moving averages",
+       x = NULL, y = "USD", colour = NULL)
+```

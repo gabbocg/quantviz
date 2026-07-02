@@ -1,0 +1,63 @@
+# 4 · Tidy with tidyr {.hero #s04-tidy}
+
+::: {.section-badge}
+Module 4 · Tidy (R4DS ch 5)
+:::
+
+Long form vs wide form
+
+::: {.lede}
+Tidy data: **one row per observation, one column per variable**. Financial data is almost always stored wide (one column per ticker) — you pivot to long for computation.
+:::
+
+## Wide → long with `pivot_longer`
+
+```{r}
+#| message: false
+library(readr); library(dplyr); library(tidyr); library(purrr)
+
+# Start wide: one column per ticker's adjusted close
+wide <- map(c("AAPL", "MSFT", "SPY"),
+            ~ read_csv(paste0("data/", .x, ".csv"), show_col_types = FALSE) |>
+                select(date, all_of("adjusted")) |>
+                rename(!!.x := adjusted)) |>
+  reduce(inner_join, by = "date")
+
+head(wide, 3)
+
+# Pivot to long — one row per (date, ticker)
+long <- wide |>
+  pivot_longer(cols = -date, names_to = "ticker", values_to = "close")
+
+head(long, 6)
+```
+
+Long form is what `group_by(ticker)` wants.
+
+{{< include demo-pivot-longer.qmd >}}
+
+## Long → wide with `pivot_wider`
+
+Sometimes you want the other direction — e.g. to compute a correlation matrix.
+
+```{r}
+returns_long <- long |>
+  group_by(ticker) |>
+  arrange(date) |>
+  mutate(log_return = log(close / lag(close))) |>
+  ungroup() |>
+  filter(!is.na(log_return))
+
+returns_wide <- returns_long |>
+  select(date, ticker, log_return) |>
+  pivot_wider(names_from = ticker, values_from = log_return)
+
+head(returns_wide, 3)
+
+# Correlation matrix over the wide format
+cor(returns_wide |> select(-date), use = "complete.obs") |> round(3)
+```
+
+Wide when you want cross-column math (correlations, portfolio returns from weight × ticker matrices).
+
+{{< include demo-pivot-wider.qmd >}}

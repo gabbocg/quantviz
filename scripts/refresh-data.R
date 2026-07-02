@@ -9,7 +9,6 @@ suppressPackageStartupMessages({
   library(frenchdata)
   library(readr)
   library(dplyr)
-  library(tidyr)
   library(lubridate)
 })
 

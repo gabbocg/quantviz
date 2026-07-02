@@ -172,8 +172,12 @@ Expected: ~1.5 MB of CSVs staged and committed.
 
 ```bash
 cd "/Users/gabbocg/Dropbox (Personal)/Documentos/Brainstorming/quantviz"
-R -e 'renv::install(c("tidyquant", "lubridate", "zoo", "broom", "PerformanceAnalytics", "gt"))'
+R -e 'renv::install(c("tidyquant", "frenchdata", "lubridate", "zoo", "broom", "PerformanceAnalytics", "gt"))'
 ```
+
+Note: `frenchdata` is used by `scripts/refresh-data.R` (T1) because
+`tidyquant::tq_get(get = "famafrench")` was removed from tidyquant in
+recent versions. If already installed by T1, `renv::install` is idempotent.
 
 Expected: each package installs into `renv/library/`. Some may already be present as transitive deps — that's fine, `renv::install` is idempotent.
 

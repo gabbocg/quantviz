@@ -24,7 +24,7 @@ aapl |> select(date, adjusted, log_return) |> head(4)
 
 `lag()` shifts the column down by one row so `log(x / lag(x))` yields the daily log return.
 
-{{< include demo-mutate.qmd >}}
+{{< include sections/demo-mutate.qmd >}}
 
 ## Slice with `filter`
 
@@ -37,7 +37,7 @@ nrow(recent_aapl)
 
 Combine conditions with `&` (`,` inside `filter` is the same as `&`).
 
-{{< include demo-filter.qmd >}}
+{{< include sections/demo-filter.qmd >}}
 
 ## Per-ticker summaries with `group_by` + `summarise`
 

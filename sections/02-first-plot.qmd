@@ -54,4 +54,4 @@ ggplot(prices, aes(date, adjusted, colour = ticker)) +
 
 The slide below plays out the same idea layer-by-layer:
 
-{{< include demo-ggplot.qmd >}}
+{{< include sections/demo-ggplot.qmd >}}

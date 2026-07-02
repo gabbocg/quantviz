@@ -452,14 +452,17 @@ window.MU_LABEL_COL = 'date';
 window.MU_CODE_LINE = 'mutate(log_return = log(close / lag(close)))';
 window.MU_COLORS    = ['#325D88'];
 // Identity transform — the value was pre-computed into row[2] above.
-// Note: the engine's build() reads row[0], row[1] for label + src; the
-// TRANSFORM function is passed row[1] (close). We just look up the
-// matching row and return its row[2] as-is.
-window.MU_TRANSFORM = function (closeVal) {
-  var match = window.MU_DATA.find(function (r) { return r[1] === closeVal; });
-  var lr = match ? match[2] : '';
-  return lr === '' ? '' : lr.toFixed(5);
-};
+// The engine's build() reads row[0]/row[1]; TRANSFORM is passed row[1] (close).
+// Look up by index (order of appearance) rather than by floating-point equality
+// on closeVal — safer against any coercion the engine might apply.
+window.MU_TRANSFORM = (function () {
+  var i = -1;
+  return function (_closeVal) {
+    i = (i + 1) % window.MU_DATA.length;
+    var lr = window.MU_DATA[i][2];
+    return lr === '' ? '' : lr.toFixed(5);
+  };
+})();
 </script>
 ```
 ```

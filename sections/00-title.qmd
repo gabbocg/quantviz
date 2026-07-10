@@ -1,5 +1,0 @@
-# R for Empirical Finance {.hero #s00-title}
-
-::: {.section-badge}
-Course · 10 modules
-:::

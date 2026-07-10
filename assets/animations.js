@@ -31,41 +31,32 @@
       });
     },
 
-    // code-type: tokens (spans inside <pre><code>) fade in left-to-right
+    // code-type: code lines fade + slide in — matches the stagger-up rhythm
+    // (translateY 12 → 0, duration 420, 80ms stagger) so bullet lists and
+    // code chunks feel like one animation vocabulary.
     'code-type': function (root) {
       var codeEls = root.querySelectorAll('pre code');
       if (!codeEls.length) return;
       codeEls.forEach(function (codeEl) {
-        if (!codeEl.dataset.tokenized) {
-          var walker = document.createTreeWalker(codeEl, NodeFilter.SHOW_TEXT, null);
-          var textNodes = [];
-          while (walker.nextNode()) textNodes.push(walker.currentNode);
-          textNodes.forEach(function (tn) {
-            var frag = document.createDocumentFragment();
-            tn.nodeValue.split(/(\s+)/).forEach(function (chunk) {
-              if (/^\s+$/.test(chunk) || chunk === '') {
-                frag.appendChild(document.createTextNode(chunk));
-              } else {
-                var span = document.createElement('span');
-                span.className = 'tok';
-                span.textContent = chunk;
-                frag.appendChild(span);
-              }
-            });
-            tn.parentNode.replaceChild(frag, tn);
-          });
-          codeEl.dataset.tokenized = '1';
-        }
-        var tokens = codeEl.querySelectorAll('.tok');
+        var lines = codeEl.querySelectorAll('span[id^="cb"]');
+        var targets = lines.length ? lines : [codeEl];
         if (REDUCE) {
-          tokens.forEach(function (t) { t.style.opacity = 1; });
+          Array.prototype.forEach.call(targets, function (el) {
+            el.style.opacity = 1;
+            el.style.transform = 'none';
+          });
           return;
         }
-        tokens.forEach(function (t) { t.style.opacity = 0; });
-        window.anime.animate(tokens, {
+        Array.prototype.forEach.call(targets, function (el) {
+          el.style.display = 'inline-block';
+          el.style.opacity = 0;
+          el.style.transform = 'translateY(12px)';
+        });
+        window.anime.animate(targets, {
           opacity: [0, 1],
-          duration: 220,
-          delay: window.anime.stagger(30),
+          translateY: [12, 0],
+          duration: 420,
+          delay: window.anime.stagger(80),
           ease: 'outQuad'
         });
       });
@@ -211,14 +202,48 @@
     }
   };
 
+  // Universal slide-in: bullets + code lines animate together as one item stream,
+  // in DOM order, with the stagger-up rhythm. So bullets and code chunks always
+  // feel like the same kind of content arriving.
+  function universalStaggerIn(slide) {
+    var targets = [];
+    // Bullet items (li) from any top-level ul/ol
+    slide.querySelectorAll('ul > li, ol > li').forEach(function (el) { targets.push(el); });
+    // Code line-wrappers Pandoc produces for `{r}` chunks and ```r blocks
+    slide.querySelectorAll('pre code span[id^="cb"]').forEach(function (el) {
+      el.style.display = 'inline-block';
+      targets.push(el);
+    });
+    if (!targets.length) return;
+    // Order by DOM position so a slide with prose → bullets → code animates in that order
+    targets.sort(function (a, b) {
+      return (a.compareDocumentPosition(b) & 4) ? -1 : 1;
+    });
+    if (REDUCE) {
+      targets.forEach(function (el) { el.style.opacity = 1; el.style.transform = 'none'; });
+      return;
+    }
+    targets.forEach(function (el) { el.style.opacity = 0; el.style.transform = 'translateY(12px)'; });
+    window.anime.animate(targets, {
+      opacity: [0, 1],
+      translateY: [12, 0],
+      duration: 420,
+      delay: window.anime.stagger(80),
+      ease: 'outQuad'
+    });
+  }
+
+  // Only the specialized effects run automatically — bullets and code chunks
+  // are intentionally left un-animated (the user prefers no transition on those).
+  var SPECIAL = { 'vector-fill': 1, 'matrix-grid': 1, 'line-draw': 1, 'count-up': 1, 'bracket-glow': 1, 'pipe-flow': 1 };
+
   function dispatch(slide) {
     if (!animeReady()) return;
     var slideAnim = slide.dataset && slide.dataset.anim;
-    if (slideAnim && EFFECTS[slideAnim]) EFFECTS[slideAnim](slide);
-    var children = slide.querySelectorAll('[data-anim]');
-    children.forEach(function (el) {
+    if (slideAnim && SPECIAL[slideAnim] && EFFECTS[slideAnim]) EFFECTS[slideAnim](slide);
+    slide.querySelectorAll('[data-anim]').forEach(function (el) {
       var name = el.dataset.anim;
-      if (EFFECTS[name]) EFFECTS[name](el);
+      if (SPECIAL[name] && EFFECTS[name]) EFFECTS[name](el);
     });
   }
 

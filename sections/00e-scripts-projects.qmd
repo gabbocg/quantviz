@@ -1,0 +1,69 @@
+# Scripts & R projects {.hero #s00e-scripts-projects}
+
+::: {.section-badge}
+Setup · Reproducible workspace
+:::
+
+## Why RStudio Projects
+
+The working directory is where R looks for files. Check it with:
+
+```r
+getwd()
+#> [1] "C:/Users/gabbo/Downloads/deploy-60e3c5ad..."
+```
+
+The obvious fix is `setwd()`:
+
+```r
+setwd("/path/to/my/analysis")
+```
+
+**But** that path is machine-specific, **RStudio Projects** solve this: the project's `.Rproj` file marks the folder as the working directory.
+
+- **File → New Project → New Directory → New Project**.
+
+## R scripts + `library()`
+
+:::: {.type-cards}
+
+::: {.type-card .type-vector}
+[The script]{.type-card-tag}
+
+### Why a `.R` file?
+
+The Console runs one line, then forgets it. An R script is a plain-text file that is
+
+- **Reproducible** 
+- **Version-controllable** 
+- **Re-runnable**
+
+::: {.script-hint}
+Create it: File → New File → R Script &nbsp;·&nbsp; [⌘⇧N]{.kbd}
+:::
+
+:::
+
+::: {.type-card .type-list}
+[The header]{.type-card-tag}
+
+### Load what you need
+
+Put every `library()` call at the top:
+
+```r
+# ---- setup ----
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+# ---- analysis ----
+read_csv("data/AAPL.csv")
+
+# Look up any function's docs
+?read_csv
+```
+
+:::
+
+::::

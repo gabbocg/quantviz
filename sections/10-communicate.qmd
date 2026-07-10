@@ -4,12 +4,6 @@
 Module 10 · Communicate (R4DS ch 29)
 :::
 
-Reports, slides, dashboards
-
-::: {.lede}
-Quarto is what this entire deck is written in. The same `.qmd` file can become HTML, PDF, Word, or a Reveal.js slide deck — you pick the format in the YAML header.
-:::
-
 ## The minimum
 
 Create `report.qmd`:

@@ -1,0 +1,51 @@
+# Four tickers, one facet {.fp4-slide #demo-first-plot-4}
+
+::: {.section-badge}
+tidyquant · candlesticks · free_y facet
+:::
+
+::: {.fi-stage-wrap}
+<div id="fp4-stage"></div>
+:::
+
+[]{.fragment .fi-frag id="fp4-frag-geom"}
+[]{.fragment .fi-frag id="fp4-frag-labs"}
+[]{.fragment .fi-frag id="fp4-frag-theme"}
+
+```{=html}
+<script>
+window.FP4_CONFIG = {
+  stageId:      'fp4-stage',
+  markerClass:  'fp4-slide',
+  fragmentIds:  ['fp4-frag-geom', 'fp4-frag-labs', 'fp4-frag-theme'],
+  geom:         'candlestick',
+  overlay:      null,
+  facet:        { tickers: ['AAPL', 'MSFT', 'SPY', 'TLT'], rows: 2, cols: 2 },
+  layers:       ['geom', 'labs', 'theme'],
+  xDomain:      [0, 119],
+  xBreaks:      [0, 40, 80, 119],
+  xMinor:       [20, 60, 100],
+  yBreaks:      [],   // populated per-panel by niceTicks in facet mode
+  yMinor:       [],
+  colors:       ['#2A4E72', '#B94A48'],
+  labs: {
+    title: 'Ten years of monthly candles — four tickers',
+    x:     '',
+    y:     '',
+    color: ''
+  },
+  legend:       false,
+  codeHtml:
+    '<span data-blk="base"><span class="gg-fn">ggplot</span>(prices,\n' +
+    '       <span class="gg-fn">aes</span>(date, close, <span class="gg-arg">group</span> = symbol)) +</span>\n' +
+    '<span data-blk="geom">  <span class="gg-fn">geom_candlestick</span>(\n' +
+    '    <span class="gg-fn">aes</span>(<span class="gg-arg">open</span> = open, <span class="gg-arg">high</span> = high,\n' +
+    '        <span class="gg-arg">low</span> = low, <span class="gg-arg">close</span> = close)) +\n' +
+    '  <span class="gg-fn">facet_wrap</span>(~ symbol, <span class="gg-arg">ncol</span> = <span class="gg-num">2</span>,\n' +
+    '             <span class="gg-arg">scales</span> = <span class="gg-str">"free_y"</span>) +</span>\n' +
+    '<span data-blk="labs">  <span class="gg-fn">labs</span>(<span class="gg-arg">title</span> = <span class="gg-str">"Ten years"</span>,\n' +
+    '       <span class="gg-arg">y</span> = <span class="gg-str">"USD"</span>) +</span>\n' +
+    '<span data-blk="theme">  <span class="gg-fn">theme_tq</span>()</span>'
+};
+</script>
+```

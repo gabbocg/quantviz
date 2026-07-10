@@ -4,12 +4,6 @@
 Module 6 · Dates in R
 :::
 
-Working with time
-
-::: {.lede}
-`Date` objects in base R + `lubridate` for parsing / arithmetic + `zoo::rollmean` for rolling windows.
-:::
-
 ## Parsing and formatting
 
 ```{r}

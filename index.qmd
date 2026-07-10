@@ -1,16 +1,22 @@
 ---
-title: "Introduction to R"
+title: "R for Empirical Finance"
 subtitle: "From installation to the tidyverse"
 author:
-  - name: "Gabriel Cabrera"
+  - name: "Gabriel Cabrera^‡^"
     orcid: "0000-0000-0000-0000"
     url: "https://gcabrerag.rbind.io"
+    affiliations:
+      - name: "‡ The University of Manchester"
 date: "2026-06-30"
 date-format: "MMMM YYYY"
 ---
 
-{{< include sections/00-title.qmd >}}
 {{< include sections/00b-about-me.qmd >}}
+{{< include sections/00c-installation.qmd >}}
+{{< include sections/00d-packages.qmd >}}
+{{< include sections/00e-scripts-projects.qmd >}}
+{{< include sections/00f-data-structures.qmd >}}
+{{< include sections/00g-subsetting.qmd >}}
 {{< include sections/01-get-data.qmd >}}
 {{< include sections/02-first-plot.qmd >}}
 {{< include sections/03-transform.qmd >}}

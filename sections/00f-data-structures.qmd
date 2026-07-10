@@ -1,0 +1,214 @@
+# R data structures {.hero #s00f-data-structures}
+
+::: {.section-badge}
+Basics · Vectors → matrices → data frames
+:::
+
+## Dimensionality & homogeneity
+
+Base R containers split along two axes, **dimensionality** and whether contents share **one type** or **many**.
+
+::: {.dh-intro}
+:::
+
+```{=html}
+<div class="dh-grid">
+  <div class="dh-corner"></div>
+  <div class="dh-col-head dh-homo"><span class="dh-dot dh-homo-dot"></span>Homogeneous</div>
+  <div class="dh-col-head dh-hetero"><span class="dh-dot dh-hetero-dot"></span>Heterogeneous</div>
+
+  <div class="dh-row-head">1<span class="dh-row-head-d">d</span></div>
+  <div class="dh-cell dh-homo">Atomic vector</div>
+  <div class="dh-cell dh-hetero">List</div>
+
+  <div class="dh-row-head">2<span class="dh-row-head-d">d</span></div>
+  <div class="dh-cell dh-homo">Matrix</div>
+  <div class="dh-cell dh-hetero">Data frame</div>
+
+  <div class="dh-row-head">n<span class="dh-row-head-d">d</span></div>
+  <div class="dh-cell dh-homo">Array</div>
+  <div class="dh-cell dh-hetero dh-empty">—</div>
+</div>
+```
+
+::: {.dh-note}
+There is **no scalar type** in R. A single number or string is really a length-1 vector.
+:::
+
+## Vectors & lists
+
+:::: {.type-cards}
+
+::: {.type-card .type-vector}
+[Homogeneous · atomic]{.type-card-tag}
+
+### Atomic vector
+
+Four flavours: `double`, `integer`, `logical`, `character`. Build one with `c()`.
+
+```{webr-r}
+dbl_var <- c(1, 2.5, 4.5)
+int_var <- c(1L, 6L, 10L)
+log_var <- c(TRUE, FALSE, TRUE, FALSE)
+chr_var <- c("here is", "a string")
+```
+
+:::
+
+::: {.type-card .type-list}
+[Heterogeneous · list]{.type-card-tag}
+
+### List
+
+Vectors of different types and lengths, other lists, functions.
+
+```{webr-r}
+list(dbl = c(1, 2.5, 4.5),
+     int = c(1L, 6L, 10L),
+     log = c(TRUE, FALSE),
+     chr = c("here is", "a string"))
+```
+
+:::
+
+::::
+
+## Matrices & arrays {.mx-slide #matrices-arrays}
+
+::: {.mx-stage-wrap}
+<div id="mx-stage"></div>
+:::
+
+[]{.fragment .fi-frag id="mx-frag-tensor"}
+[]{.fragment .fi-frag id="mx-frag-s1"}
+[]{.fragment .fi-frag id="mx-frag-s2"}
+[]{.fragment .fi-frag id="mx-frag-s3"}
+
+:::: {.type-cards}
+
+::: {.type-card .type-vector}
+[2d · matrix]{.type-card-tag}
+
+```{webr-r}
+a <- matrix(1:4, nrow = 2, ncol = 2)
+a
+```
+:::
+
+::: {.type-card .type-list}
+[3d · array (tensor)]{.type-card-tag}
+
+```{webr-r}
+b <- array(1:27, dim = c(3, 3, 3))
+dim(b)
+```
+:::
+
+::::
+
+## Equivalent verbs, different containers
+
+::: {.verb-intro}
+Same operation, different function name per container:
+:::
+
+::: {.verb-table}
+| Operation         | Vector              | Matrix                       | Array         |
+|:------------------|:--------------------|:-----------------------------|:--------------|
+| **Naming**        | `names()`           | `rownames()`, `colnames()`   | `dimnames()`  |
+| **Sizing**        | `length()`          | `nrow()`, `ncol()`           | `dim()`       |
+| **Transpose**     | —                   | `t()`                        | `aperm()`     |
+| **Type test**     | `is.null(dim(x))`   | `is.matrix()`                | `is.array()`  |
+:::
+
+:::: {.type-cards}
+
+::: {.type-card .type-vector}
+[Try it · name rows]{.type-card-tag}
+
+```{webr-r}
+rownames(a) <- c("row 1", "row 2")
+a
+```
+:::
+
+::: {.type-card .type-list}
+[…and name cols]{.type-card-tag}
+
+```{webr-r}
+colnames(a) <- c("col 1", "col 2")
+a
+```
+:::
+
+::::
+
+## Data frames
+
+:::: {.type-cards}
+
+::: {.type-card .type-vector}
+[The idea]{.type-card-tag}
+
+### List of equal-length vectors
+
+Columnar heterogeneity of a **list**, rectangular shape of a **matrix** — the shape almost every real dataset in R takes.
+
+`ncol()` and `length()` return the same thing: the number of columns.
+:::
+
+::: {.type-card .type-list}
+[In code]{.type-card-tag}
+
+### Build one
+
+Pass each column as a named vector argument.
+
+```{webr-r}
+df1 <- data.frame(x = 1:3,
+                  y = c("a", "b", "c"),
+                  z = c(TRUE, FALSE, TRUE))
+df1
+```
+
+Peek at column types with `str(df1)`.
+:::
+
+::::
+
+## Tibbles
+
+:::: {.type-cards}
+
+::: {.type-card .type-vector}
+[Better defaults]{.type-card-tag}
+
+### `tibble()` for modern R
+
+Same shape as `data.frame`, sharper printing, no silent type coercion.
+
+```{webr-r}
+#| message: false
+library(tibble)
+
+tibble(x = 1:3,
+       y = c("a", "b", "c"),
+       z = c(TRUE, FALSE, TRUE))
+```
+:::
+
+::: {.type-card .type-list}
+[Non-syntactic names]{.type-card-tag}
+
+### Backticks let you use any name
+
+```{webr-r}
+tibble(`:)`   = "smile",
+       ` `    = "space",
+       `2000` = "number")
+```
+
+`data.frame()` would either mangle these or refuse them.
+:::
+
+::::

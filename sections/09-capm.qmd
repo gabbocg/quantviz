@@ -4,12 +4,6 @@
 Module 9 · Model (R4DS light)
 :::
 
-Alpha and beta
-
-::: {.lede}
-The Capital Asset Pricing Model in one line: `lm(r_asset - rf ~ r_mkt - rf)`. Slope is beta, intercept is alpha, R² is how much of the asset's variance the market explains.
-:::
-
 ## Load the pieces
 
 ```{r}

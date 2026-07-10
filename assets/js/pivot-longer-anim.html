@@ -1,0 +1,305 @@
+<script>
+/*
+  tidyr::pivot_longer() animation — wide → long.
+  Same layout as filter/mutate demos: 1100×560 stage, left source, right result.
+  Instead of arrows, uses COLOR CODING: each source column gets a color, and
+  the destination rows show the same color on their subject + score cells,
+  making the "3 columns became 1 subject column" transformation visible.
+
+  Stages:
+    0: source wide table
+    1: code line highlights + source column headers get colored per subject
+    2: destination long table appears row-by-row, colored by subject
+*/
+(function () {
+  window.TM = window.TM || {};
+  TM.onReveal = function (cb) {
+    (function go() {
+      if (typeof Reveal === 'undefined' || !Reveal.on) { setTimeout(go, 50); return; }
+      cb();
+    })();
+  };
+  TM.gate = TM.gate || function (opts) {
+    function visibleStage() {
+      var n = 0;
+      for (var i = 0; i < opts.fragmentIds.length; i++) {
+        var f = document.getElementById(opts.fragmentIds[i]);
+        if (f && f.classList.contains('visible')) n++;
+        else break;
+      }
+      return n;
+    }
+    function onThisSlide(slide) {
+      return slide && (slide.classList.contains(opts.markerClass) ||
+                       slide.querySelector('.' + opts.markerClass));
+    }
+    TM.onReveal(function () {
+      Reveal.on('fragmentshown',  function () { if (onThisSlide(Reveal.getCurrentSlide())) opts.render(visibleStage()); });
+      Reveal.on('fragmenthidden', function () { if (onThisSlide(Reveal.getCurrentSlide())) opts.render(visibleStage()); });
+      Reveal.on('slidechanged',   function (e) { if (onThisSlide(e.currentSlide)) opts.render(visibleStage()); });
+      (function boot() {
+        var cur = Reveal.getCurrentSlide && Reveal.getCurrentSlide();
+        if (!cur) { setTimeout(boot, 60); return; }
+        if (onThisSlide(cur)) opts.render(visibleStage());
+      })();
+    });
+  };
+
+  // ---- config ----
+  var DATA         = window.PL_DATA         || [];
+  var COLS         = window.PL_COLS         || ['name', 'math', 'science', 'english'];
+  var SUBJ_COLORS  = window.PL_SUBJECT_COLORS || ['#325D88', '#B94A48', '#557A3E'];
+  var TITLE_PRE    = window.PL_TITLE_PRE    || 'pivot_longer(';
+  var CONDS_TEXT   = window.PL_CONDS_TEXT   || ['cols = c(math, science, english)', 'names_to = "subject"', 'values_to = "score"'];
+  var TITLE_POST   = window.PL_TITLE_POST   || ')';
+
+  // ---- geometry (matches filter/mutate: ROW_H=44) ----
+  var ROW_H = 44, HEADER_H = 40, TABLE_Y = 90;
+  var LEFT_X = 30, RIGHT_X = 640;
+  var W_NAME = 110, W_SUBJ = 130, W_VAL = 90;
+  var ROW_W_LEFT = W_NAME + 3 * W_VAL;      // 380
+
+  function hexRGB(hex) {
+    var n = parseInt(hex.replace('#', ''), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  }
+  var COND = SUBJ_COLORS.map(function (hex) {
+    var rgb = hexRGB(hex);
+    return {
+      fill:  'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0.22)',
+      clear: 'rgba(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ',0)',
+      ink:   'rgb(' + Math.round(rgb[0]*0.62) + ',' + Math.round(rgb[1]*0.62) + ',' + Math.round(rgb[2]*0.62) + ')',
+    };
+  });
+  var INK = '#3E3F3A';
+
+  var built = false;
+  var condSpans = [];
+  var leftHeaderSubjCells = [];
+  var leftValueCells = [];
+  var rightRows = [];
+  var rightHead = null;
+  var arrows = [];           // one per (source row, subject) → destination row
+
+  function rowY(j) { return TABLE_Y + HEADER_H + j * ROW_H; }
+
+  function makeCell(cls, text, w) {
+    var c = document.createElement('span');
+    c.className = 'fi-cell ' + cls;
+    c.textContent = text;
+    if (w) { c.style.width = w + 'px'; c.style.minWidth = w + 'px'; }
+    return c;
+  }
+  function absPos(el, x, y) { el.style.transform = 'translate(' + x + 'px, ' + y + 'px)'; }
+
+  function build() {
+    var stage = document.getElementById('pl-stage');
+    if (!stage || built) return !!stage;
+    built = true;
+
+    // ---- title code with colored condition substrings ----
+    var title = document.createElement('div');
+    title.className = 'fi-title';
+    title.appendChild(document.createTextNode(TITLE_PRE));
+    CONDS_TEXT.forEach(function (t, i) {
+      if (i) title.appendChild(document.createTextNode(', '));
+      var s = document.createElement('span');
+      s.className = 'fi-code-cond';
+      s.textContent = t;
+      title.appendChild(s);
+      condSpans.push(s);
+    });
+    title.appendChild(document.createTextNode(TITLE_POST));
+    stage.appendChild(title);
+
+    // ---- LEFT (wide) header row ----
+    var lhead = document.createElement('div');
+    lhead.className = 'fi-row fi-head';
+    absPos(lhead, LEFT_X, TABLE_Y);
+    lhead.appendChild(makeCell('', COLS[0], W_NAME));
+    for (var s = 1; s < COLS.length; s++) {
+      var cell = makeCell('fi-pl-subj-head', COLS[s], W_VAL);
+      lhead.appendChild(cell);
+      leftHeaderSubjCells.push(cell);
+    }
+    stage.appendChild(lhead);
+
+    // LEFT data rows
+    DATA.forEach(function (row, i) {
+      var r = document.createElement('div');
+      r.className = 'fi-row';
+      absPos(r, LEFT_X, rowY(i));
+      r.appendChild(makeCell('', row[0], W_NAME));
+      var cells = [];
+      for (var s = 1; s < COLS.length; s++) {
+        var c = makeCell('fi-pl-val', String(row[s]), W_VAL);
+        r.appendChild(c);
+        cells.push(c);
+      }
+      stage.appendChild(r);
+      leftValueCells.push(cells);
+    });
+
+    // ---- RIGHT (long) header ----
+    var rhead = document.createElement('div');
+    rhead.className = 'fi-row fi-head';
+    absPos(rhead, RIGHT_X, TABLE_Y);
+    rhead.appendChild(makeCell('', 'name', W_NAME));
+    rhead.appendChild(makeCell('', 'subject', W_SUBJ));
+    rhead.appendChild(makeCell('', 'score', W_VAL));
+    rhead.style.opacity = 0;
+    stage.appendChild(rhead);
+    rightHead = rhead;
+
+    // RIGHT (long) rows: for each source row × each subject
+    DATA.forEach(function (row, i) {
+      for (var sIdx = 0; sIdx < COLS.length - 1; sIdx++) {
+        var r = document.createElement('div');
+        r.className = 'fi-row';
+        var destJ = i * (COLS.length - 1) + sIdx;
+        absPos(r, RIGHT_X, rowY(destJ));
+        r.appendChild(makeCell('', row[0], W_NAME));
+        r.appendChild(makeCell('fi-pl-subj', COLS[sIdx + 1], W_SUBJ));
+        r.appendChild(makeCell('fi-pl-val', String(row[sIdx + 1]), W_VAL));
+        r.style.opacity = 0;
+        r.dataset.subject = sIdx;
+        stage.appendChild(r);
+        rightRows.push(r);
+      }
+    });
+
+    // ---- SVG fan-out arrows: each source row → 3 destination rows ----
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('class', 'fi-arrows-svg');
+    var defs = document.createElementNS(svgNS, 'defs');
+    // one arrowhead per subject color so the tip matches the destination
+    SUBJ_COLORS.forEach(function (hex, sIdx) {
+      var marker = document.createElementNS(svgNS, 'marker');
+      marker.setAttribute('id', 'pl-arrowhead-' + sIdx);
+      marker.setAttribute('viewBox', '0 0 10 10');
+      marker.setAttribute('refX', '8'); marker.setAttribute('refY', '5');
+      marker.setAttribute('markerWidth', '5'); marker.setAttribute('markerHeight', '5');
+      marker.setAttribute('orient', 'auto-start-reverse');
+      var head = document.createElementNS(svgNS, 'path');
+      head.setAttribute('d', 'M 0 0 L 10 5 L 0 10 z');
+      head.setAttribute('fill', hex);
+      marker.appendChild(head);
+      defs.appendChild(marker);
+    });
+    svg.appendChild(defs);
+
+    var sx = LEFT_X + ROW_W_LEFT + 6;
+    var dx = RIGHT_X - 8;
+    DATA.forEach(function (row, i) {
+      for (var sIdx = 0; sIdx < COLS.length - 1; sIdx++) {
+        var syy = rowY(i) + ROW_H / 2;
+        var destJ = i * (COLS.length - 1) + sIdx;
+        var dyy = rowY(destJ) + ROW_H / 2;
+        var p = document.createElementNS(svgNS, 'path');
+        p.setAttribute('class', 'fi-arrow fi-arrow-sub-' + sIdx);
+        p.setAttribute('marker-end', 'url(#pl-arrowhead-' + sIdx + ')');
+        p.setAttribute('stroke', SUBJ_COLORS[sIdx]);
+        p.setAttribute('d', 'M ' + sx + ' ' + syy + ' C ' + (sx + 100) + ' ' + syy + ', ' + (dx - 100) + ' ' + dyy + ', ' + dx + ' ' + dyy);
+        svg.appendChild(p);
+        var len = p.getTotalLength();
+        p.style.strokeDasharray = len;
+        p.style.strokeDashoffset = len;
+        p.style.opacity = 0;
+        arrows.push({ p: p, len: len, subject: sIdx });
+      }
+    });
+    stage.appendChild(svg);
+
+    return true;
+  }
+
+  function render(stage) {
+    console.log('[pivot-longer-anim] render stage=' + stage);
+    if (!build()) return;
+    if (typeof window.anime === 'undefined') { setTimeout(function(){ render(stage); }, 60); return; }
+    var anime = window.anime;
+
+    // Stage 1: code substrings + source column headers colored
+    var hi = stage >= 1;
+    // The 3 subject headers get one color each (navy/brick/olive)
+    leftHeaderSubjCells.forEach(function (cell, sIdx) {
+      var cc = COND[sIdx % COND.length];
+      anime.animate(cell, {
+        backgroundColor: hi ? cc.fill : cc.clear,
+        color: hi ? cc.ink : '#6B7280',
+        duration: 450,
+        ease: 'inOutQuad'
+      });
+    });
+    // Substring highlights — cols in the color palette, names_to/values_to in ink
+    condSpans.forEach(function (s, i) {
+      var cc = i === 0 ? { fill: 'rgba(107,114,128,0.14)', clear: 'rgba(107,114,128,0)', ink: INK } : COND[Math.min(i - 1, COND.length - 1)];
+      anime.animate(s, {
+        backgroundColor: hi ? cc.fill : cc.clear,
+        color: hi ? cc.ink : INK,
+        duration: 450,
+        ease: 'inOutQuad'
+      });
+    });
+
+    // Stage 2: arrows draw + destination table appears with color coding
+    var show2 = stage >= 2;
+    if (show2) {
+      // Arrows draw first, one per (source row, subject)
+      arrows.forEach(function (a, k) {
+        anime.animate(a.p, {
+          strokeDashoffset: [a.len, 0],
+          opacity: [0, 1],
+          duration: 550,
+          ease: 'inOutCubic',
+          delay: k * 60
+        });
+      });
+      // Right-side header + rows appear as the arrows finish
+      anime.animate(rightHead, {
+        opacity: [0, 1],
+        duration: 300,
+        ease: 'outQuad',
+        delay: 400
+      });
+      rightRows.forEach(function (r, k) {
+        var sIdx = parseInt(r.dataset.subject, 10);
+        var cc = COND[sIdx % COND.length];
+        var subjCell = r.querySelector('.fi-pl-subj');
+        var valCell  = r.querySelector('.fi-pl-val');
+        var d = 500 + k * 80;
+        anime.animate(r, { opacity: [0, 1], duration: 280, ease: 'outQuad', delay: d });
+        anime.animate([subjCell, valCell], {
+          backgroundColor: [cc.clear, cc.fill],
+          color: [INK, cc.ink],
+          duration: 280,
+          ease: 'inOutQuad',
+          delay: d + 80
+        });
+      });
+    } else {
+      // Hard reset — no animation
+      arrows.forEach(function (a) {
+        a.p.style.strokeDashoffset = a.len;
+        a.p.style.opacity = 0;
+      });
+      rightHead.style.opacity = 0;
+      rightRows.forEach(function (r) {
+        r.style.opacity = 0;
+        var sc = r.querySelector('.fi-pl-subj');
+        var vc = r.querySelector('.fi-pl-val');
+        sc.style.backgroundColor = ''; sc.style.color = '';
+        vc.style.backgroundColor = ''; vc.style.color = '';
+      });
+    }
+  }
+
+  TM.gate({
+    markerClass: 'pl-slide',
+    fragmentIds: ['pl-frag-1', 'pl-frag-2'],
+    render: render
+  });
+})();
+
+</script>

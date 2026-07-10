@@ -1,57 +1,13 @@
-# 2 · Visualize with ggplot2 {.hero #s02-first-plot}
+# Visualize with ggplot2 {.hero #s02-first-plot}
 
 ::: {.section-badge}
 Module 2 · Visualize (R4DS ch 2)
 :::
 
-Your first plot
+{{< include sections/demo-first-plot-1.qmd >}}
 
-::: {.lede}
-`ggplot()` builds plots as layers: data + aesthetics, then geoms, then labels.
-:::
+{{< include sections/demo-first-plot-2.qmd >}}
 
-## Just draw the line
+{{< include sections/demo-first-plot-3.qmd >}}
 
-```{r}
-#| message: false
-#| fig-align: center
-#| fig-width: 8
-#| fig-height: 4
-library(readr); library(dplyr); library(ggplot2)
-
-aapl <- read_csv("data/AAPL.csv", show_col_types = FALSE)
-
-ggplot(aapl, aes(date, adjusted)) +
-  geom_line(colour = "#325D88") +
-  labs(title = "AAPL adjusted close", x = NULL, y = "USD") +
-  theme_minimal()
-```
-
-That's the entire grammar: **data** (`aapl`), **aesthetics** (`aes(date, adjusted)`), **geom** (`geom_line`), **labs**, **theme**.
-
-## Three tickers on the same axes
-
-```{r}
-#| message: false
-#| fig-align: center
-#| fig-width: 8
-#| fig-height: 4
-library(purrr)
-
-tickers <- c("AAPL", "SPY", "GLD")
-prices <- map_dfr(tickers,
-                  ~ read_csv(paste0("data/", .x, ".csv"), show_col_types = FALSE) |>
-                     mutate(ticker = .x))
-
-ggplot(prices, aes(date, adjusted, colour = ticker)) +
-  geom_line() +
-  scale_colour_manual(values = c(AAPL = "#325D88", SPY = "#B94A48", GLD = "#557A3E")) +
-  labs(title = "Ten years of daily close", x = NULL, y = "Adjusted close (USD)", colour = "Ticker") +
-  theme_minimal()
-```
-
-## Now the deconstructed animation
-
-The slide below plays out the same idea layer-by-layer:
-
-{{< include sections/demo-ggplot.qmd >}}
+{{< include sections/demo-first-plot-4.qmd >}}

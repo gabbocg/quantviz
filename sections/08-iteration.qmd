@@ -4,12 +4,6 @@
 Module 8 · Iteration (R4DS ch 26)
 :::
 
-`purrr::map_dfr` and friends
-
-::: {.lede}
-`for` loops work. But when the input is a vector of things and the output is one row per thing, `map_dfr` reads like a sentence.
-:::
-
 ## Compute Sharpe for every ticker in one line
 
 ```{r}

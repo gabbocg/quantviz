@@ -21,7 +21,8 @@ done
 
 # --- Demo slide IDs ---
 for demo in demo-mutate-slide demo-filter-slide demo-pivot-longer-slide \
-            demo-pivot-wider-slide demo-ggplot-slide; do
+            demo-pivot-wider-slide demo-ggplot-slide \
+            demo-first-plot-1 demo-first-plot-2 demo-first-plot-3 demo-first-plot-4; do
   if ! grep -q "$demo" "$OUT"; then
     echo "FAIL: missing demo id $demo"; exit 1
   fi

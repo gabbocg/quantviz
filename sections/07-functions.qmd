@@ -4,12 +4,6 @@
 Module 7 · Program (R4DS ch 25)
 :::
 
-Wrap the analysis
-
-::: {.lede}
-When you find yourself pasting the same expression three times, it's a function. Finance is full of repeated formulas — Sharpe, drawdown, annualisation. Learn to write them yourself before reaching for `PerformanceAnalytics`.
-:::
-
 ## Anatomy
 
 ```{r}

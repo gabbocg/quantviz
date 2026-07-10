@@ -1,11 +1,5 @@
-# R for Finance {.hero #s00-title}
+# R for Empirical Finance {.hero #s00-title}
 
 ::: {.section-badge}
 Course · 10 modules
-:::
-
-R for Finance
-
-::: {.lede}
-The R4DS core — visualize, transform, tidy, program, model, communicate — applied to real stock prices, factor models, and portfolio math.
 :::

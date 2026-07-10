@@ -4,12 +4,6 @@
 Module 3 · Transform (R4DS ch 4)
 :::
 
-Reshape and compute
-
-::: {.lede}
-Five verbs handle almost every wrangle: `mutate`, `select`, `filter`, `arrange`, `summarise` — plus `group_by` to scope them.
-:::
-
 ## Log returns with `mutate`
 
 ```{r}

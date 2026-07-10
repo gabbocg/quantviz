@@ -4,12 +4,6 @@
 Module 5 · Workflow (R4DS ch 3, 6)
 :::
 
-The pipe and code style
-
-::: {.lede}
-The base-R pipe `|>` and the tidyverse `%>%` do the same thing 95% of the time: pass the left value into the first argument of the right function.
-:::
-
 ## Same pipeline, three ways
 
 Nested (unreadable):

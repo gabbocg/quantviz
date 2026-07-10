@@ -1,0 +1,233 @@
+<script>
+/*
+  Slide "Matrices & arrays" — 3×9 big matrix → 3×3×3 tensor with slice walk-through.
+
+  Fragment progression:
+    0 (initial):        matrix(1:27, nrow=3, ncol=9). All 27 cells laid out
+                        column-major in a 3-row × 9-col flat matrix.
+    1 (mx-frag-tensor): dim(v) <- c(3, 3, 3). Cols 4-6 detach into slice 2,
+                        cols 7-9 detach into slice 3. All three slices sit
+                        at 0.85 opacity — you see the whole tensor first.
+    2 (mx-frag-s1):     v[,,1] highlighted; slices 2 & 3 fade.
+    3 (mx-frag-s2):     v[,,2] highlighted; slices 1 & 3 fade.
+    4 (mx-frag-s3):     v[,,3] highlighted; slices 1 & 2 fade.
+
+  The top dim() caption stays fixed (it names the shape). Per-slice captions
+  above each slab carry the "which slab is current" role; they do not repeat
+  the top text.
+*/
+(function () {
+  window.TM = window.TM || {};
+  TM.onReveal = TM.onReveal || function (cb) {
+    (function go() {
+      if (typeof Reveal === 'undefined' || !Reveal.on) { setTimeout(go, 50); return; }
+      cb();
+    })();
+  };
+  TM.gate = TM.gate || function (opts) {
+    function visibleStage() {
+      var n = 0;
+      for (var i = 0; i < opts.fragmentIds.length; i++) {
+        var f = document.getElementById(opts.fragmentIds[i]);
+        if (f && f.classList.contains('visible')) n++;
+        else break;
+      }
+      return n;
+    }
+    function onThisSlide(slide) {
+      return slide && (slide.classList.contains(opts.markerClass) ||
+                       slide.querySelector('.' + opts.markerClass));
+    }
+    TM.onReveal(function () {
+      Reveal.on('fragmentshown',  function () { if (onThisSlide(Reveal.getCurrentSlide())) opts.render(visibleStage()); });
+      Reveal.on('fragmenthidden', function () { if (onThisSlide(Reveal.getCurrentSlide())) opts.render(visibleStage()); });
+      Reveal.on('slidechanged',   function (e) { if (onThisSlide(e.currentSlide)) opts.render(visibleStage()); });
+      (function boot() {
+        var cur = Reveal.getCurrentSlide && Reveal.getCurrentSlide();
+        if (!cur) { setTimeout(boot, 60); return; }
+        if (onThisSlide(cur)) opts.render(visibleStage());
+      })();
+    });
+  };
+
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function el(name, attrs, parent) {
+    var e = document.createElementNS(SVGNS, name);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  // Geometry ----------------------------------------------------------------
+  var W = 1100, H = 460;
+  var CELL = 66, GAP = 8;
+  var MTX_ROWS = 3;
+  var LAYERS = 3;
+  var COLS_FLAT  = 9;
+  var COLS_SLICE = 3;
+  var CELLS_PER_SLICE = MTX_ROWS * COLS_SLICE;   // 9
+  var TOTAL_CELLS = CELLS_PER_SLICE * LAYERS;    // 27
+  var DZ_X = 108;
+  var DZ_Y = 72;
+  // Palette per slice: navy → steel → olive (front → middle → back).
+  var COLORS = ['#325D88', '#4B7A9A', '#557A3E'];
+  var BG     = ['#FFFFFF', '#F5F9FB', '#F4F7EE'];
+  var DIM_OPACITY  = 0.18;
+  var BASE_OPACITY = 0.9;
+
+  // FLAT_X0 / TENSOR_X0 are the pixel positions of the LEFTMOST cell's centre
+  // in each layout. Both are computed so the whole shape's VISUAL centre lands
+  // on the SVG midline (W/2), which lets the dim() caption sit right under it.
+  var FLAT_X0   = W / 2 - (COLS_FLAT - 1) * (CELL + GAP) / 2;
+  var FLAT_Y0   = 200;   // headroom for the extruded back layer
+  var TENSOR_X0 = W / 2 - ((COLS_SLICE - 1) * (CELL + GAP) + (LAYERS - 1) * DZ_X) / 2;
+  var TENSOR_Y0 = FLAT_Y0;
+
+  // Column-major flat position for cell index i (0..26).
+  function flatPos(i) {
+    var col = Math.floor(i / MTX_ROWS);
+    var row = i % MTX_ROWS;
+    return {
+      x: FLAT_X0 + col * (CELL + GAP),
+      y: FLAT_Y0 + row * (CELL + GAP)
+    };
+  }
+  // Position of cell j (0..8) within slice s (0..2).
+  function slicePos(s, j) {
+    var col = Math.floor(j / MTX_ROWS);
+    var row = j % MTX_ROWS;
+    return {
+      x: TENSOR_X0 + col * (CELL + GAP) + s * DZ_X,
+      y: TENSOR_Y0 + row * (CELL + GAP) - s * DZ_Y
+    };
+  }
+
+  function buildCell(value, color, bgFill, extraClass) {
+    var g = el('g', { class: 'mx-cell ' + (extraClass || '') });
+    var r = el('rect', {
+      x: -CELL / 2, y: -CELL / 2,
+      width: CELL, height: CELL,
+      rx: 6, ry: 6,
+      fill: bgFill,
+      stroke: color,
+      'stroke-width': 1.8
+    }, g);
+    var t = el('text', {
+      x: 0, y: 0,
+      'font-family': 'JetBrains Mono, SF Mono, Menlo, monospace',
+      'font-size': 20,
+      'font-weight': 700,
+      'text-anchor': 'middle',
+      'dominant-baseline': 'central',
+      fill: color
+    }, g);
+    t.textContent = value;
+    return { g: g, rect: r, text: t };
+  }
+
+  var built = false;
+  var cellsBySlice = [[], [], []];   // 3 arrays, each 9 cells
+  var sliceLabels = [];
+
+  function build() {
+    var stage = document.getElementById('mx-stage');
+    if (!stage || built) return !!stage;
+    built = true;
+
+    var svg = el('svg', { viewBox: '0 0 ' + W + ' ' + H });
+    svg.style.cssText = 'display:block;width:' + W + 'px;height:' + H + 'px;';
+    stage.appendChild(svg);
+
+    // Per-slice captions ("v[,,1]" / …) live below each slab. The shape
+    // caption at the bottom of the stage has been removed per user request —
+    // only the animation itself remains.
+    ['v[,,1]', 'v[,,2]', 'v[,,3]'].forEach(function (name, i) {
+      var t = el('text', {
+        x: 0, y: 0,
+        'font-family': 'JetBrains Mono, SF Mono, Menlo, monospace',
+        'font-size': 22,
+        'font-weight': 700,
+        'text-anchor': 'middle',
+        fill: COLORS[i],
+        opacity: 0
+      }, svg);
+      t.textContent = name;
+      sliceLabels.push(t);
+    });
+
+    // Layers appended back → front so the front slice sits on top visually.
+    for (var s = LAYERS - 1; s >= 0; s--) {
+      for (var j = 0; j < CELLS_PER_SLICE; j++) {
+        var value = s * CELLS_PER_SLICE + j + 1;
+        var c = buildCell(value, COLORS[s], BG[s], 'mx-slice-' + s);
+        c.g.style.transition = 'opacity 0.55s ease, transform 0.75s cubic-bezier(0.5, 0, 0.2, 1)';
+        svg.appendChild(c.g);
+        cellsBySlice[s].push(c);
+      }
+    }
+    return true;
+  }
+
+  function setPos(cell, pos) {
+    cell.g.style.transform = 'translate(' + pos.x + 'px, ' + pos.y + 'px)';
+  }
+  function setColor(cell, color) {
+    cell.rect.setAttribute('stroke', color);
+    cell.text.setAttribute('fill', color);
+  }
+
+  function render(stage) {
+    if (!build()) return;
+
+    // Positions --------------------------------------------------------------
+    for (var s = 0; s < LAYERS; s++) {
+      for (var j = 0; j < CELLS_PER_SLICE; j++) {
+        var flatIdx = s * CELLS_PER_SLICE + j;
+        var pos = stage === 0 ? flatPos(flatIdx) : slicePos(s, j);
+        setPos(cellsBySlice[s][j], pos);
+      }
+    }
+
+    // Colours: at stage 0 all cells share the navy palette so the flat 3×9
+    // matrix reads as a single block. From stage 1 onward each slice carries
+    // its own colour.
+    for (var s = 0; s < LAYERS; s++) {
+      var col = stage === 0 ? COLORS[0] : COLORS[s];
+      cellsBySlice[s].forEach(function (c) { setColor(c, col); });
+    }
+
+    // Slice captions: sit BELOW each slab's bottom-row centre so they never
+    // collide with the extruded cells above.
+    var midOffset = (COLS_SLICE - 1) * (CELL + GAP) / 2;
+    for (var s = 0; s < LAYERS; s++) {
+      var bottomRowIdx = MTX_ROWS - 1;
+      var bottom = slicePos(s, bottomRowIdx);
+      sliceLabels[s].setAttribute('x', bottom.x + midOffset);
+      sliceLabels[s].setAttribute('y', bottom.y + CELL / 2 + 40);   // more clearance below each slab
+    }
+
+    // Opacities --------------------------------------------------------------
+    // stage 0 : flat matrix, all opaque, no slice captions.
+    // stage 1 : tensor formed, all slices visible at BASE_OPACITY.
+    // stage 2 : slice 0 highlighted, others dimmed.
+    // stage 3 : slice 1 highlighted.
+    // stage 4 : slice 2 highlighted.
+    var focused = stage >= 2 ? stage - 2 : -1;   // 0 / 1 / 2 / -1 when unfocused
+    for (var s = 0; s < LAYERS; s++) {
+      var op, lop;
+      if (stage === 0)      { op = 1; lop = 0; }
+      else if (stage === 1) { op = BASE_OPACITY; lop = 1; }
+      else if (s === focused) { op = 1; lop = 1; }
+      else                    { op = DIM_OPACITY; lop = DIM_OPACITY; }
+      cellsBySlice[s].forEach(function (c) { c.g.style.opacity = op; });
+      sliceLabels[s].setAttribute('opacity', lop);
+    }
+  }
+
+  TM.gate({
+    markerClass: 'mx-slide',
+    fragmentIds: ['mx-frag-tensor', 'mx-frag-s1', 'mx-frag-s2', 'mx-frag-s3'],
+    render: render
+  });
+})();
+</script>

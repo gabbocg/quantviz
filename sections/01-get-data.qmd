@@ -1,13 +1,7 @@
-# 1 · Getting financial data {.hero #s01-get-data}
+# Getting financial data {.hero #s01-get-data}
 
 ::: {.section-badge}
 Module 1 · Import (R4DS ch 7)
-:::
-
-Loading market data
-
-::: {.lede}
-Two paths: pull from Yahoo Finance live, or read the CSVs shipped with this course.
 :::
 
 ## The classic way: `tidyquant::tq_get()`

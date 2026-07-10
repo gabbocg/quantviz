@@ -73,9 +73,9 @@
     return out;
   })();
 
-  // Geometry (stage sub-box)
-  var W = 600, H = 380;
-  var M = { l: 62, r: 130, t: 42, b: 62 };
+  // Geometry (stage sub-box) — matches #gg-plot in theme.scss (640x460)
+  var W = 640, H = 460;
+  var M = { l: 62, r: 130, t: 46, b: 62 };
   var PX0 = M.l, PX1 = W - M.r, PY0 = M.t, PY1 = H - M.b;
 
   function expand(lo, hi) { var e = (hi - lo) * 0.05; return [lo - e, hi + e]; }
@@ -154,7 +154,23 @@
     });
   }
   function buildPoints(svg) {
-    if (GEOM === 'line') {
+    if (GEOM === 'ohlc') {
+      // geom_barchart from tidyquant: high–low wick, left tick = open, right = close.
+      var ohlc = window.GG_OHLC || [];
+      var upColor = window.GG_UP_COLOR   || '#325D88';
+      var dnColor = window.GG_DOWN_COLOR || '#B94A48';
+      var xs = ohlc.map(function (r) { return sx(r[0]); });
+      var span = ohlc.length > 1 ? Math.abs(xs[1] - xs[0]) : 6;
+      var tick = Math.max(1.5, span * 0.4);
+      ohlc.forEach(function (r) {
+        var x = sx(r[0]);
+        var yo = sy(r[1]), yh = sy(r[2]), yl = sy(r[3]), yc = sy(r[4]);
+        var color = r[4] >= r[1] ? upColor : dnColor;
+        el('line', { x1: x, x2: x, y1: yh, y2: yl, stroke: color, 'stroke-width': 1.2 }, svg);
+        el('line', { x1: x - tick, x2: x, y1: yo, y2: yo, stroke: color, 'stroke-width': 1.2 }, svg);
+        el('line', { x1: x, x2: x + tick, y1: yc, y2: yc, stroke: color, 'stroke-width': 1.2 }, svg);
+      });
+    } else if (GEOM === 'line') {
       // Group points by series index (p[2] must be a 0-based integer that
       // indexes into COLORS/SPECIES), then draw one polyline per series.
       var bySeries = {};
@@ -174,6 +190,26 @@
     }
   }
   function buildSmooth(svg) {
+    // Explicit overlay lines (e.g. tidyquant geom_ma × 2) — draw each as a
+    // path with its own colour / dash style. Falls back to the ribbon+line
+    // geom_smooth() default when GG_MA_LINES is not set.
+    if (window.GG_MA_LINES) {
+      window.GG_MA_LINES.forEach(function (line) {
+        if (!line.data || !line.data.length) return;
+        var d = '';
+        line.data.forEach(function (p, i) { d += (i ? 'L' : 'M') + sx(p[0]) + ',' + sy(p[1]) + ' '; });
+        var attrs = {
+          d: d, fill: 'none',
+          stroke: line.color || '#000',
+          'stroke-width': line.width || 2,
+          'stroke-linejoin': 'round',
+          'stroke-linecap': 'round'
+        };
+        if (line.dashed) attrs['stroke-dasharray'] = '6,4';
+        el('path', attrs, svg);
+      });
+      return;
+    }
     var up = '', dn = '';
     SMOOTH.forEach(function (s, i) { up += (i ? 'L' : 'M') + sx(s[0]) + ',' + sy(s[3]) + ' '; });
     for (var i = SMOOTH.length - 1; i >= 0; i--) dn += 'L' + sx(SMOOTH[i][0]) + ',' + sy(SMOOTH[i][2]) + ' ';
@@ -184,10 +220,16 @@
   }
   function buildLabs(svg) {
     txt(svg, PX0, 24, LABS.title, { 'font-size': 17, 'font-weight': 700, fill: '#1d2433' });
+    if (LABS.subtitle) {
+      txt(svg, PX0, 42, LABS.subtitle,
+          { 'font-size': 13, 'font-style': 'italic', fill: '#4d4d4d' });
+    }
     txt(svg, (PX0 + PX1) / 2, H - 18, LABS.x, { 'text-anchor': 'middle', 'font-size': 13, fill: '#1d2433' });
     var yt = txt(svg, 20, (PY0 + PY1) / 2, LABS.y, { 'text-anchor': 'middle', 'font-size': 13, fill: '#1d2433' });
     yt.setAttribute('transform', 'rotate(-90 20 ' + ((PY0 + PY1) / 2) + ')');
-    txt(svg, LEG_X, legY() - 22, LABS.color, { 'font-size': 13, 'font-weight': 700, fill: '#1d2433' });
+    if (LABS.color) {
+      txt(svg, LEG_X, legY() - 22, LABS.color, { 'font-size': 13, 'font-weight': 700, fill: '#1d2433' });
+    }
   }
 
   // ---- code listing — compact form to fit alongside the plot ----
@@ -299,5 +341,4 @@
     render: render
   });
 })();
-
 </script>

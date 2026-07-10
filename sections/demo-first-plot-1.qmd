@@ -1,0 +1,57 @@
+# Candlesticks + moving average {.fp1-slide #demo-first-plot-1}
+
+::: {.section-badge}
+tidyquant · AAPL monthly candles + SMA(6)
+:::
+
+::: {.fi-stage-wrap}
+<div id="fp1-stage"></div>
+:::
+
+[]{.fragment .fi-frag id="fp1-frag-geom"}
+[]{.fragment .fi-frag id="fp1-frag-overlay"}
+[]{.fragment .fi-frag id="fp1-frag-labs"}
+[]{.fragment .fi-frag id="fp1-frag-theme"}
+
+```{=html}
+<script>
+window.FP1_CONFIG = {
+  stageId:      'fp1-stage',
+  markerClass:  'fp1-slide',
+  fragmentIds:  ['fp1-frag-geom', 'fp1-frag-overlay', 'fp1-frag-labs', 'fp1-frag-theme'],
+  ticker:       'AAPL',
+  geom:         'candlestick',
+  overlay:      { type: 'ma', window: 6, color: '#F47C3C' },
+  layers:       ['geom', 'overlay', 'labs', 'theme'],
+  xDomain:      [0, 119],
+  yDomain:      [0, 260],
+  xBreaks:      [0, 24, 48, 72, 96, 119],
+  yBreaks:      [0, 50, 100, 150, 200, 250],
+  xMinor:       [12, 36, 60, 84, 108],
+  yMinor:       [25, 75, 125, 175, 225],
+  colors:       ['#2A4E72', '#B94A48'],  // up (hollow), down (filled)
+  labs: {
+    title: 'AAPL — monthly candles',
+    x:     'Months since Jan 2015',
+    y:     'USD',
+    color: ''
+  },
+  legend:       true,
+  legendEntries: [
+    { label: 'Up month',   color: '#2A4E72' },
+    { label: 'Down month', color: '#B94A48' },
+    { label: 'SMA(6)',     color: '#F47C3C', dashed: true }
+  ],
+  codeHtml:
+    '<span data-blk="base"><span class="gg-fn">ggplot</span>(aapl, <span class="gg-fn">aes</span>(date, close)) +</span>\n' +
+    '<span data-blk="geom">  <span class="gg-fn">geom_candlestick</span>(\n' +
+    '    <span class="gg-fn">aes</span>(<span class="gg-arg">open</span> = open, <span class="gg-arg">high</span> = high,\n' +
+    '        <span class="gg-arg">low</span> = low, <span class="gg-arg">close</span> = close)) +</span>\n' +
+    '<span data-blk="overlay">  <span class="gg-fn">geom_ma</span>(<span class="gg-arg">ma_fun</span> = SMA, <span class="gg-arg">n</span> = <span class="gg-num">6</span>,\n' +
+    '          <span class="gg-arg">color</span> = <span class="gg-str">"#F47C3C"</span>) +</span>\n' +
+    '<span data-blk="labs">  <span class="gg-fn">labs</span>(<span class="gg-arg">title</span> = <span class="gg-str">"AAPL candles"</span>,\n' +
+    '       <span class="gg-arg">y</span> = <span class="gg-str">"USD"</span>) +</span>\n' +
+    '<span data-blk="theme">  <span class="gg-fn">theme_tq</span>()</span>'
+};
+</script>
+```

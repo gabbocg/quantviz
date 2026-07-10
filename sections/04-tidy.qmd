@@ -4,12 +4,6 @@
 Module 4 · Tidy (R4DS ch 5)
 :::
 
-Long form vs wide form
-
-::: {.lede}
-Tidy data: **one row per observation, one column per variable**. Financial data is almost always stored wide (one column per ticker) — you pivot to long for computation.
-:::
-
 ## Wide → long with `pivot_longer`
 
 ```{r}

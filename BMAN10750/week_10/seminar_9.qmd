@@ -1,0 +1,243 @@
+---
+title: "Seminar 9"
+subtitle: "Statistics 7 (Forecasting) Solutions"
+thanks: "gabriel.cabreraguzman@postgrad.manchester.ac.uk"
+author: 
+    - name: Gabriel E. Cabrera Guzmán
+      orcid: 0000-0000-0000-0000
+short-author: "Gabriel E. Cabrera Guzmán"
+institute: | 
+     | The University of Manchester
+     | Alliance Manchester Business School
+date: "today"
+date-format: long
+format:
+  beamer:
+      navigation: horizontal
+      theme: default
+      colortheme: default
+      aspectratio: 43
+include-in-header: 
+    - before-body.tex
+template-partials:
+  - title.tex
+keep-tex: true
+---
+
+## Exercise 1
+
+Exponential Forecasting with $\alpha = 0.2$: \vspace{0.15cm}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{c c c c}
+\toprule
+\textbf{Month} & $\mathbf{x_t}$ & $\mathbf{F_t}$ & $\mathbf{e_t = x_t - F_t}$ \\
+\midrule
+1  & 23 &        &        \\
+2  & 39 & 40.00  &        \\
+3  & 36 &        &        \\
+4  & 26 &        &        \\
+5  & 36 &        &        \\
+6  & 12 &        &        \\
+7  & 26 &        &        \\
+8  & 30 &        &        \\
+9  & 42 &        &        \\
+10 & 35 &        &        \\
+11 & 36 &        &        \\
+12 & 28 &        &        \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+## Exercise 1 (Cont'd)
+
+1. Complete the above table for exponential forecasting assuming $\alpha = 0.2$.  \vspace{0.15cm}
+    
+    . . .
+    
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{c c c c}
+    \toprule
+    \textbf{Month} & $\mathbf{x_t}$ & $\mathbf{F_t}$ & $\mathbf{e_t = x_t - F_t}$ \\
+    \midrule
+    1  & 23 &        &         \\
+    2  & 39 & 40.00  &  -1.00  \\
+    3  & 36 & 39.80  &  -3.80  \\
+    4  & 26 & 39.04  & -13.04  \\
+    5  & 36 & 36.43  &  -0.43  \\
+    6  & 12 & 36.35  & -24.35  \\
+    7  & 26 & 31.48  &  -5.48  \\
+    8  & 30 & 30.38  &  -0.38  \\
+    9  & 42 & 30.30  &  11.70  \\
+    10 & 35 & 32.64  &   2.36  \\
+    11 & 36 & 33.12  &   2.88  \\
+    12 & 28 & 33.69  &  -5.69  \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+## Exercise 1 (Cont'd)
+
+2. State assumption(s) required for exponential forecasting. 
+    
+    . . .
+    
+    The time series should be absent of trend and seasonal effect 
+
+## Exercise 2
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{c c c c}
+\toprule
+\textbf{Month} & $\mathbf{x_t}$ & $\mathbf{F_t}$ & $\mathbf{e_t = x_t - F_t}$ \\
+\midrule
+1 & 45 &        &        \\
+2 & 62 & 67.00  &        \\
+3 & 73 &        &        \\
+4 & 87 &        &        \\
+5 & 86 &        &        \\
+6 & 95 &        &        \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+## Exercise 2 (Cont'd)
+
+1. Complete the above table for exponential forecasting assuming $\alpha = 0.2$ and $\alpha = 0.4$.
+    
+    . . .
+    
+    When $\alpha = 0.2$, we have: \vspace{0.25cm}
+    
+    . . .
+    
+    \begin{table}[h!]
+    \centering
+    \begin{tabular}{c c c c}
+    \toprule
+    Month & $\mathbf{x_t}$ & $\mathbf{F_t}$ & $\mathbf{e_t = x_t - F_t}$ \\
+    \midrule
+    1 & 45 &        &        \\
+    2 & 62 & 67.00  & -5.00  \\
+    3 & 73 & 66.00  & 7.00   \\
+    4 & 87 & 67.40  & 19.60  \\
+    5 & 86 & 71.32  & 14.68  \\
+    6 & 95 & 74.26  & 20.74  \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+## Exercise 2 (Cont'd)
+
+. . .
+
+When $\alpha = 0.4$, we have:  \vspace{0.25cm}
+
+. . .
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{c c c c}
+\toprule
+Month & $\mathbf{x_t}$ & $\mathbf{F_t}$ & $\mathbf{e_t = x_t - F_t}$ \\
+\midrule
+1 & 45 &        &        \\
+2 & 62 & 67.00  & -5.00  \\
+3 & 73 & 65.00  & 8.00   \\
+4 & 87 & 68.20  & 18.80  \\
+5 & 86 & 75.72  & 10.28  \\
+6 & 95 & 79.83  & 15.17  \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+## Exercise 2 (Cont'd)
+
+2. Compute the Mean Squared Error (MSE) assuming $\alpha = 0.2$ and $\alpha = 0.4$.
+    
+    . . .
+    
+    MSE when $\alpha = 0.2$: \vspace{-0.5cm}
+    
+    . . .
+    
+    $$
+    \frac{(-5)^2 + 7^2 + (19.6)^2 + (14.68)^2 + (20.74)^2}{5} = \frac{4492.22}{5} = 898.44
+    $$
+    
+    . . .
+    
+    MSE when $\alpha = 0.4$: \vspace{-0.5cm}
+    
+    . . .
+    
+    $$
+    \frac{(-5)^2 + 8^2 + (18.8)^2 + (10.28)^2 + (15.17)^2}{5} = \frac{3277.33}{5} = 655.47
+    $$
+    
+## Exercise 2 (Cont'd)
+
+3. Compute the Mean Absolute Error (MAE) assuming $\alpha = 0.2$ and $\alpha = 0.4$.
+    
+    . . .
+    
+    MAE when $\alpha = 0.2$: \vspace{-0.5cm}
+    
+    . . .
+    
+    $$
+    \frac{|{-5}| + |7| + |19.6| + |14.68| + |20.74|}{5} = \frac{67.02}{5} = 13.40
+    $$
+
+    . . .
+    
+    MAE when $\alpha = 0.4$: \vspace{-0.5cm}
+    
+    . . .
+    
+    $$
+    \frac{|{-5}| + |8| + |18.8| + |10.28| + |15.17|}{5} = \frac{57.25}{5} = 11.45
+    $$
+
+## Exercise 2 (Cont'd)
+
+4. Based on (2) and (3), suggest which $\alpha$ is more suitable for exponential forecasting. 
+    
+    . . .
+    
+    Both MSE and MAE are lower when $\alpha = 0.4$. Therefore, $\alpha = 0.4$ is a better choice for exponential forecasting.  
+    
+## Exercise 3
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{c c c c c c c c}
+\toprule
+\textbf{Period} & $\mathbf{x_t}$ &
+\textbf{Period} & $\mathbf{x_t}$ &
+\textbf{Period} & $\mathbf{x_t}$ &
+\textbf{Period} & $\mathbf{x_t}$ \\
+\midrule
+1  & 22   & 8  & 20   & 15 & 22   & 22 & 22 \\
+2  & 18   & 9  & 25   & 16 & 24   & 23 & 28 \\
+3  & 15   & 10 & 21   & 17 & 29   & 24 & 31 \\
+4  & 19   & 11 & 20   & 18 & 27   &     &    \\
+5  & 23   & 12 & 20   & 19 & 21   &     &    \\
+6  & 21   & 13 & 27   & 20 & 26   &     &    \\
+7  & 16   & 14 & 25   & 21 & 29   &     &    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+## Exercise 3 (cont'd)
+
+. . .
+
+1. Compute 3-month simple moving average for the above data.
+
+2. Compute 4-month simple moving average for the above data.
+
+3. Compute centered 4-month simple moving average for the above data.

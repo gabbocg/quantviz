@@ -1,0 +1,76 @@
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+
+\apptocmd{\frame}{}{\justifying}{} 
+
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{itemize items}[circle]
+\setbeamersize{text margin left=2.25em, text margin right=2.25em}
+
+\let\OLDitemize\itemize
+\renewcommand\itemize{
+    \OLDitemize\addtolength{\itemsep}{3pt plus 1pt minus 1pt}
+}
+\let\OLDenumerate\enumerate
+\renewcommand\enumerate{
+    \OLDenumerate\addtolength{\itemsep}{3pt plus 1pt minus 1pt}
+}
+
+\usepackage{orcidlink}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{argmax}
+
+\makeatletter
+\def\@listii{\leftmargin\leftmarginii
+              \topsep    1ex
+              \parsep    0\p@   \@plus\p@
+              \itemsep   \parsep}
+\makeatother
+
+\usepackage{lipsum}
+
+\let\olditem\item
+\renewcommand\item{\olditem\justifying}
+
+\definecolor{blue}{RGB}{0,114,178}
+\definecolor{red}{RGB}{213,94,0}
+\definecolor{yellow}{RGB}{240,228,66}
+\definecolor{green}{RGB}{0,158,115}
+
+\definecolor{MyBackground}{RGB}{255,253,218}
+
+\setbeamercolor{section in toc}{fg=blue}
+\setbeamercolor{subsection in toc}{fg=red}
+
+\setbeamercolor{frametitle}{fg=blue}
+\setbeamercolor{title}{fg=blue}
+
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{itemize items}{-}
+
+\setbeamercolor{itemize item}{fg=blue}
+\setbeamercolor{itemize subitem}{fg=blue}
+\setbeamercolor{enumerate item}{fg=blue}
+\setbeamercolor{enumerate subitem}{fg=blue}
+\setbeamercolor{button}{bg=MyBackground,fg=blue}
+
+\newcounter{daggerfootnote}
+\newcommand*{\daggerfootnote}[1]{%
+    \setcounter{daggerfootnote}{\value{footnote}}%
+    \renewcommand*{\thefootnote}{\fnsymbol{footnote}}%
+    \footnote[2]{#1}%
+    \setcounter{footnote}{\value{daggerfootnote}}%
+    \renewcommand*{\thefootnote}{\arabic{footnote}}%
+}
+
+\AtBeginSection{
+    \begingroup
+    \setbeamercolor{background canvas}{bg=yellow}
+    \begin{frame}
+        \begin{centering}
+            \usebeamerfont{section title}\huge\color{black}\insertsection\par
+        \end{centering}
+    \end{frame}
+    \endgroup
+}

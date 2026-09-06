@@ -1,0 +1,1073 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  ignorenonframetext,
+  aspectratio=43,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolshorizontal
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usetheme[]{default}
+\usecolortheme{default}
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+\usepackage{caption}
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+
+\apptocmd{\frame}{}{\justifying}{} 
+
+\setbeamertemplate{enumerate items}[default]
+\setbeamertemplate{itemize items}[circle]
+\setbeamersize{text margin left=2.25em, text margin right=2.25em}
+
+\let\OLDitemize\itemize
+\renewcommand\itemize{
+    \OLDitemize\addtolength{\itemsep}{3pt plus 1pt minus 1pt}
+}
+\let\OLDenumerate\enumerate
+\renewcommand\enumerate{
+    \OLDenumerate\addtolength{\itemsep}{3pt plus 1pt minus 1pt}
+}
+
+\usepackage{orcidlink}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{argmax}
+
+\makeatletter
+\def\@listii{\leftmargin\leftmarginii
+              \topsep    1ex
+              \parsep    0\p@   \@plus\p@
+              \itemsep   \parsep}
+\makeatother
+
+\usepackage{lipsum}
+
+\let\olditem\item
+\renewcommand\item{\olditem\justifying}
+
+\definecolor{blue}{RGB}{0,114,178}
+\definecolor{red}{RGB}{213,94,0}
+\definecolor{yellow}{RGB}{240,228,66}
+\definecolor{green}{RGB}{0,158,115}
+
+\definecolor{MyBackground}{RGB}{255,253,218}
+
+\setbeamercolor{section in toc}{fg=blue}
+\setbeamercolor{subsection in toc}{fg=red}
+
+\setbeamercolor{frametitle}{fg=blue}
+\setbeamercolor{title}{fg=blue}
+
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{navigation symbols}{} 
+\setbeamertemplate{itemize items}{-}
+
+\setbeamercolor{itemize item}{fg=blue}
+\setbeamercolor{itemize subitem}{fg=blue}
+\setbeamercolor{enumerate item}{fg=blue}
+\setbeamercolor{enumerate subitem}{fg=blue}
+\setbeamercolor{button}{bg=MyBackground,fg=blue}
+
+\newcounter{daggerfootnote}
+\newcommand*{\daggerfootnote}[1]{%
+    \setcounter{daggerfootnote}{\value{footnote}}%
+    \renewcommand*{\thefootnote}{\fnsymbol{footnote}}%
+    \footnote[2]{#1}%
+    \setcounter{footnote}{\value{daggerfootnote}}%
+    \renewcommand*{\thefootnote}{\arabic{footnote}}%
+}
+
+\AtBeginSection{
+    \begingroup
+    \setbeamercolor{background canvas}{bg=yellow}
+    \begin{frame}
+        \begin{centering}
+            \usebeamerfont{section title}\huge\color{black}\insertsection\par
+        \end{centering}
+    \end{frame}
+    \endgroup
+}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[many]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Seminar 6},
+  pdfauthor={Gabriel E. Cabrera Guzmán},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title[Seminar 6]{Seminar
+6\daggerfootnote{\texttt{gabriel.cabreraguzman@postgrad.manchester.ac.uk}}}
+\subtitle{Statistics 2 (Hypothesis Testing) Solutions}
+\author[Gabriel E. Cabrera Guzmán]{
+    {Gabriel E. Cabrera
+Guzmán\textsuperscript{\normalsize\orcidlink{0000-0000-0000-0000}}} \medskip
+}
+\date{November 20, 2025}
+\institute[]{
+    The University of Manchester\\
+Alliance Manchester Business School \bigskip
+}
+
+\definecolor{quarto-callout-note-color}{RGB}{0,114,178}
+\definecolor{quarto-callout-note-color-frame}{RGB}{0,114,178}
+\definecolor{quarto-callout-warning-color}{RGB}{213,94,0}
+\definecolor{quarto-callout-warning-color-frame}{RGB}{213,94,0}
+\begin{document}
+\frame{\titlepage}
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, breakable, enhanced, sharp corners, boxrule=0pt, frame hidden, borderline west={3pt}{0pt}{shadecolor}]}{\end{tcolorbox}}\fi
+
+\begin{frame}{Exercise 1}
+\protect\hypertarget{exercise-1}{}
+An international airport advertises that an average of 1,300 flights
+land there each day. An aviation analyst suspects that the true average
+number of daily landings is higher than this claim. Assuming a
+population standard deviation of 720 flights, the analyst monitors
+airport activity for 36 days and observes a sample mean of 1,600 flights
+per day.
+
+\begin{enumerate}
+\item
+  Test the claim of the aviation analyst using a 5\% level of
+  significance.
+
+  \pause
+
+  Since the population standard deviation is known (\(\sigma = 720\))
+  and the sample size is large (\(n = 36\)), we can use the standard
+  normal distribution to conduct the hypothesis test.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 1 (Cont'd)}
+\protect\hypertarget{exercise-1-contd}{}
+\pause
+
+We first write down the hypotheses. Since the aviation analyst expects
+the true average number of daily landings to be higher, the alternative
+hypothesis uses a greater-than sign: \vspace{-5pt}
+
+\pause
+
+\[
+\begin{aligned}
+H_0: \mu &= 1300 \\ 
+H_1: \mu &> 1300
+\end{aligned}
+\]
+
+\pause
+
+Next, we compute the \(z\)-test statistic based on the information
+provided. We have \(\mu = 1300\), \(\bar{x} = 1600\), \(n = 36\), and
+\(\sigma = 720\):
+
+\pause
+
+\[
+z = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}
+= \frac{1600 - 1300}{720 / \sqrt{36}}
+= \frac{300}{120}
+= 2.5.
+\]
+\end{frame}
+
+\begin{frame}{Exercise 1 (Cont'd)}
+\protect\hypertarget{exercise-1-contd-1}{}
+\pause
+
+The significance level is \(\alpha = 5\%\). To find the critical value
+for rejecting the null at this level, we look for the value \(z\) such
+that the probability to its right is \(0.05\). From the standard normal
+table, \vspace{-4pt}
+
+\pause
+
+\[
+\Pr(Z < 1.64) = 0.95.
+\]
+
+\pause
+
+Thus, the critical value for a right-tailed test at the 5\% level is
+\(z_{\alpha} = 1.64\). Since the test statistic (2.5) is greater than
+the critical value (1.64), we reject the null hypothesis at the 5\%
+significance level.
+
+\pause
+
+Furthermore, the \(p\)-value is the area to the right of the observed
+\(z\)-statistic:
+\end{frame}
+
+\begin{frame}{Exercise 1 (Cont'd)}
+\protect\hypertarget{exercise-1-contd-2}{}
+\pause
+
+\[
+\begin{aligned}
+p &= \Pr(Z > 2.5) \\
+  &= 1 - \Pr(Z < 2.5) \\
+  &= 1 - 0.9938 \\
+  &= 0.0062.
+\end{aligned}
+\]
+
+\pause
+
+Since the \(p\)-value (\(0.0062\)) is less than \(\alpha = 0.05\), we
+again reject the null hypothesis at the 5\% level of significance.
+\end{frame}
+
+\begin{frame}{Exercise 1 (Cont'd)}
+\protect\hypertarget{exercise-1-contd-3}{}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item
+  Suggest a potential source of a Type I error.
+
+  \pause
+
+  Sample selection bias. The days could be chosen from peak seasons like
+  summer.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 2}
+\protect\hypertarget{exercise-2}{}
+An insurance firm claims that the monthly number of approved claims is
+normally distributed with a mean of 120. An analyst believes that the
+true average number of approved claims is less than this and collects
+data for the past 25 months. The analyst finds that the sample mean
+number of approved claims per month is 114, with a sample standard
+deviation of 15.
+
+\begin{enumerate}
+\item
+  Test the analyst's claim using a 5\% level of significance. You do not
+  need to calculate the p-value.
+
+  \pause
+
+  Since the sample standard deviation is known (\(s = 15\)) and the
+  population distribution is assumed to be normally distributed, we use
+  the Student's \(t\) distribution to conduct the hypothesis test.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 2 (Cont'd)}
+\protect\hypertarget{exercise-2-contd}{}
+\pause
+
+We first write down the hypotheses. Since the analyst believes the true
+average number of approved claims is lower, the alternative hypothesis
+uses a less-than sign:\vspace{-4pt}
+
+\pause
+
+\[
+\begin{aligned}
+H_0: \mu &= 120 \\
+H_1: \mu &< 120
+\end{aligned}
+\]
+
+\pause
+
+Next, we compute the \(t\)-test statistic based on the information
+provided. We have \(\mu = 120\), \(\bar{x} = 114\), \(n = 25\), and
+\(s = 15\):
+
+\pause
+
+\[
+t = \frac{\bar{x} - \mu}{s / \sqrt{n}}
+= \frac{114 - 120}{15 / \sqrt{25}}
+= \frac{-6}{3}
+= -2.
+\]
+\end{frame}
+
+\begin{frame}{Exercise 2 (Cont'd)}
+\protect\hypertarget{exercise-2-contd-1}{}
+\pause
+
+The significance level is \(\alpha = 5\%\). To find the critical value
+for rejecting the null at this significance level, we look for the
+probability of \(0.05\) in the Student's \(t\) distribution table with
+degrees of freedom \vspace{-4pt}
+
+\pause
+
+\[
+df = n - 1 = 25 - 1 = 24.
+\]
+
+\pause
+
+For a left-tailed test, we look for the value \(t\) such that the
+probability to its left is \(0.05\). From the table, we find that
+\vspace{-4pt}
+
+\pause
+
+\[
+\Pr(T < -1.711) = 0.05.
+\]
+
+\pause
+
+Therefore, the critical value for a left-tailed test at the 5\%
+significance level is \(-1.711\). Since the \(t\)-test statistic
+(\(-2\)) is less than the critical value (\(-1.711\)), we reject the
+null hypothesis at the 5\% level of significance.
+\end{frame}
+
+\begin{frame}{Exercise 2 (Cont'd)}
+\protect\hypertarget{exercise-2-contd-2}{}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item
+  Test the analyst's claim using a 1\% level of significance. You do not
+  need to calculate the p-value.
+
+  \pause
+
+  The significance level is \(\alpha = 1\%\). To find the critical value
+  for rejecting the null at this significance level, we look for the
+  probability of \(0.01\) in the Student's \(t\) distribution table with
+  degrees of freedom \vspace{-4pt}
+
+  \pause
+
+  \[
+   df = n - 1 = 25 - 1 = 24.
+   \]
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 2 (Cont'd)}
+\protect\hypertarget{exercise-2-contd-3}{}
+\pause
+
+For a left-tailed test, we look for the value \(t\) such that the
+probability to its left is \(0.01\). From the table, we find that
+\vspace{-4pt}
+
+\pause
+
+\[
+\Pr(T < -2.492) = 0.01.
+\]
+
+\pause
+
+Therefore, the critical value for a left-tailed test at the 1\%
+significance level is \(-2.492\). Since the \(t\)-test statistic
+(\(-2\)) is greater than the critical value (\(-2.492\)), we fail to
+reject the null hypothesis at the 1\% level of significance.
+\end{frame}
+
+\begin{frame}{Exercise 2 (Cont'd)}
+\protect\hypertarget{exercise-2-contd-4}{}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item
+  Explain differences (if any) in the results in (a) and (b).
+
+  \pause
+
+  We reject the null hypothesis in part (a) but not in part (b). This
+  difference arises because the significance level is lower in part (b).
+  A 1\% significance level requires a more extreme test statistic to
+  reject the null compared to a 5\% significance level. Since the
+  observed test statistic is not extreme enough to exceed the stricter
+  1\% critical threshold, we fail to reject the null at 1\% even though
+  we were able to reject it at 5\%.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 3}
+\protect\hypertarget{exercise-3}{}
+The scores on a first-year undergraduate statistics exam are assumed to
+be normally distributed with a population mean of 60 and a population
+standard deviation of 18. A sample of 81 students has a sample mean
+score of 64.
+
+\begin{enumerate}
+\item
+  Test the claim that the average exam score is less than 60 using a 1\%
+  level of significance.
+
+  \pause
+
+  Since the population standard deviation is known (\(\sigma = 18\)) and
+  the sample size is large (\(n = 81\)), we can use the standard normal
+  distribution to conduct hypothesis testing. As only the direction of
+  the test changes from parts (a)--(c), we first compute the \(z\)-test
+  statistic based on the information. We have \(\mu = 60\),
+  \(\bar{x} = 64\), \(n = 81\), and \(\sigma = 18\): \vspace{-4pt}
+
+  \pause
+
+  \[
+   z = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}
+   = \frac{64 - 60}{18 / \sqrt{81}}
+   = \frac{4}{2}
+   = 2.
+   \]
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd}{}
+\pause
+
+Since claim is the average exam score is less than 60, the alternative
+hypothesis would contain the less than sign. We have: \vspace{-4pt}
+
+\pause
+
+\[
+\begin{aligned}
+H_0:\mu &= 60 \\
+H_1:\mu &< 60
+\end{aligned}
+\]
+
+\pause
+
+The significance level is \(\alpha=1\%\). To find the critical value for
+rejecting the null at this significance level, we look for the
+probability of \(0.01\) in the standard normal distribution table. For a
+left-tailed test, we look for the value \(z\) such that the probability
+to its left is \(0.01\). From the table, we find that
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd-1}{}
+\pause
+
+\[
+\Pr(Z<-2.33)=0.01
+\]
+
+\pause
+
+Therefore, the critical value for a left-tailed test at the \(1\%\)
+significance level is \(-2.33\). Since the \(z\)-test statistic (2) is
+greater than the critical value (\(-2.33\)), we fail to reject the null
+hypothesis at the \(1\%\) level of significance.
+
+\pause
+
+Further, the p-value for this hypothesis test is the area to the left of
+the observed z-statistic under the standard normal distribution. That
+is, \vspace{-4pt}
+
+\pause
+
+\[
+\Pr(Z<2)=0.9772
+\]
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd-2}{}
+\pause
+
+Since the p-value (\(0.9772\)) is greater than the significance level of
+\(0.01\), we fail to reject the null hypothesis at the \(1\%\) level of
+significance.
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd-3}{}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item
+  Test the claim that the average exam score is greater than 60 using a
+  1\% level of significance.
+
+  \pause
+
+  Since claim is the average exam score is greater than 60, the
+  alternative hypothesis would contain the less than sign. We have:
+  \vspace{-17pt}
+
+  \pause
+
+  \[
+   \begin{aligned}
+   H_0:\mu &= 60 \\ 
+   H_1:\mu &> 60
+   \end{aligned}
+   \]
+
+  \pause
+
+  The significance level is \(\alpha=1\%\). To find the critical value
+  for rejecting the null at this significance level, we look for the
+  probability of \(0.01\) in the standard normal distribution table. For
+  a right-tailed test, we look for the value \(z\) such that the
+  probability to its right is \(0.01\). From the table, we find that
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd-4}{}
+\pause
+
+\[
+\Pr(Z>2.33)=0.01
+\]
+
+\pause
+
+Therefore, the critical value for a right-tailed test at the \(1\%\)
+significance level is \(2.33\). Since the \(z\)-test statistic (2) is
+less than the critical value (\(2.33\)), we fail to reject the null
+hypothesis at the \(1\%\) level of significance.
+
+\pause
+
+Further, the p-value for this hypothesis test is the area to the right
+of the observed z-statistic under the standard normal distribution. That
+is, \vspace{-10pt}
+
+\pause
+
+\[
+\Pr(Z>2)=1-\Pr(Z<2)=1-0.9772=0.023.
+\]
+
+\pause
+
+Since the p-value (0.023) is greater than the significance level of
+0.01, we fail to reject the null hypothesis at the 1\% level of
+significance.
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd-5}{}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item
+  Test the claim that the average exam score is different from 60 using
+  a 1\% level of significance.
+
+  \pause
+
+  Since claim is the average exam score is different than 60, the
+  alternative hypothesis would contain the not equal to sign. We have:
+  \vspace{-5pt}
+
+  \pause
+
+  \[
+   \begin{aligned}
+   H_0:\mu &=60 \\ 
+   H_1:\mu &\neq 60
+   \end{aligned}
+   \]
+
+  \pause
+
+  The significance level is \(\alpha=1\%\). To find the critical value
+  for rejecting the null at this significance level, we look for the
+  probability of \(0.01 \div 2 = 0.005\) in the standard normal
+  distribution table. For a two-tailed test, we look for the value \(z\)
+  such that the probability to both its left and right is \(0.005\).
+  From the table, we find that
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd-6}{}
+\pause
+
+\[
+\Pr(Z>2.58)=0.005.
+\] \vspace{-15pt}
+
+\pause
+
+Therefore, the critical value for a two-tailed test at the \(1\%\)
+significance level is \(2.58\). Since the \(z\)-test statistic (2) is
+less than the critical value (\(2.58\)), we fail to reject the null
+hypothesis at the \(1\%\) level of significance.
+
+\pause
+
+Further, the p-value for this two-tailed hypothesis test is the
+probability of observing a test statistic as extreme or more extreme
+than the absolute value of the observed z-statistic, in either
+direction, under the standard normal distribution. That is,
+\vspace{-5pt}
+
+\pause
+
+\[
+P(Z > |2|) = 2P(Z > 2) = 2 \times 0.0228 = 0.0456.
+\]
+
+\pause
+
+Since the p-value (0.0456) is greater than the significance level of
+0.01, we fail to reject the null hypothesis at the 1\% level of
+significance.
+\end{frame}
+
+\begin{frame}{Exercise 3 (Cont'd)}
+\protect\hypertarget{exercise-3-contd-7}{}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item
+  Suppose we change the level of significance level to 5\%. In which of
+  the above scenarios can we reject the null?
+
+  When we change the significance level to 5\%, we can reject the null
+  for the hypothesis tests in (b) and (c) but not (a).
+
+  \begin{longtable}[]{@{}lll@{}}
+  \toprule()
+  Test & p-value & Decision \\
+  \midrule()
+  \endhead
+  (a) & 0.977 & Fail to Reject \\
+  (b) & 0.023 & Reject \\
+  (c) & 0.046 & Reject \\
+  \bottomrule()
+  \end{longtable}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 4}
+\protect\hypertarget{exercise-4}{}
+A manufacturer of rechargeable batteries advertises that the average
+lifetime of its batteries is 20 hours. An independent consumer group
+wants to investigate this claim. They collect a sample of 100 batteries
+and find that the average lifetime in the sample is 19.2 hours. The
+population standard deviation is known to be 3 hours.
+
+\begin{enumerate}
+\item
+  Construct a 99\% confidence interval for the true average battery
+  lifetime.
+
+  \pause
+
+  Since the population standard deviation is known and the sample size
+  is large. We can use the standard normal distribution to construct the
+  confidence interval. To find the confidence interval, we first need to
+  find \(Z_{\alpha/2}\). We want to construct a 99\% confidence
+  interval. Therefore, the confidence level is \(1-\alpha = 0.99\), and
+  \(\alpha = 0.01\). Considering that we have a two-sided confidence
+  interval, the error term in each tail must be \(\alpha/2 = 0.005\).
+  Thus, \(\Pr(Z < \alpha) = 0.995\).
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 4 (Cont'd)}
+\protect\hypertarget{exercise-4-contd}{}
+\pause
+
+To find suitable \(Z_{\alpha/2} = \alpha\), search for the probability
+of \(0.995\) among the numbers (probabilities) in the standard normal
+distribution table. We find that \vspace{-10pt}
+
+\pause
+
+\[
+\Pr(Z < 2.576) = 0.995.
+\]
+
+Therefore, we have \(Z_{\alpha/2} = 2.576\).
+\end{frame}
+
+\begin{frame}{Exercise 4 (Cont'd)}
+\protect\hypertarget{exercise-4-contd-1}{}
+\pause
+
+Construct the confidence interval and replace \(\bar{x}=19.2\),
+\(Z_{\alpha/2}=2.576\), \(n=100\), and \(\sigma=3\) as follows:
+
+\pause
+
+\[
+\bar{x} - Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+< \mu <
+\bar{x} + Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+\]
+
+\pause
+
+\[
+19.2 - 2.576 \times \frac{3}{\sqrt{100}}
+< \mu <
+19.2 + 2.576 \times \frac{3}{\sqrt{100}}
+\]
+
+\pause
+
+\[
+18.43 < \mu < 19.97
+\]
+\end{frame}
+
+\begin{frame}{Exercise 4 (Cont'd)}
+\protect\hypertarget{exercise-4-contd-2}{}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item
+  Test the manufacturer's claim using a 1\% level of significance.
+
+  \pause
+
+  Since the 99\% confidence interval does not contain the population
+  mean (20) claimed by the manufacturer, we can reject the null
+  hypothesis that the population mean is 20 at a 1\% level of
+  significance.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 5}
+\protect\hypertarget{exercise-5}{}
+A researcher is examining whether the average waiting time at a service
+centre has changed from its long-standing average of 15 minutes. A
+random sample of 25 customers is selected. The sample shows an average
+waiting time of 16.2 minutes.
+
+\pause
+
+\begin{enumerate}
+\item
+  Assume the population standard deviation is known to be 3 minutes.
+  Test whether the true average waiting time differs from 15 minutes
+  using a 5\% level of significance.
+
+  \pause
+
+  We first write down the hypothesis, since the claim is that the true
+  average waiting time is different, the alternative hypothesis would
+  contain the not equal to sign. We have: \vspace{-5pt}
+
+  \pause
+
+  \[
+   \begin{aligned}
+   H_0:\mu & =15 \\ 
+   H_1:\mu & \neq 15
+   \end{aligned}
+   \]
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 5 (Cont'd)}
+\protect\hypertarget{exercise-5-contd}{}
+\pause
+
+The population standard deviation is known (\(\sigma = 3\)) and the
+sample size is only \(n=25\), we must assume the population distribution
+is normal so that we can use the standard normal distribution to conduct
+hypothesis testing.
+
+\pause
+
+We compute the z-test statistic based on the information. We have
+\(\mu = 15\), \(\bar{x} = 16.2\), \(n = 25\), and \(\sigma = 3\)
+
+\pause
+
+\[
+\frac{\bar{x}-\mu}{\sigma/\sqrt{n}}
+=
+\frac{16.2 - 15}{3/\sqrt{25}}
+=
+\frac{1.2}{0.6}
+=
+2
+\]
+\end{frame}
+
+\begin{frame}{Exercise 5 (Cont'd)}
+\protect\hypertarget{exercise-5-contd-1}{}
+\pause
+
+The significance level is \(\alpha = 5\%\). To find the critical value
+for rejecting the null at this significance level, we look for the
+probability of \(0.05 \div 2 = 0.025\) in the standard normal
+distribution table. For a two-tailed test, we look for the value \(z\)
+such that the probability to both its left and right is \(0.025\). From
+the table, we find that \vspace{-5pt}
+
+\pause
+
+\[
+\Pr(Z > 1.96) = 0.025.
+\]
+
+\pause
+
+Therefore, the critical value for a two-tailed test at the \(5\%\)
+significance level is \(1.96\). Since the \(z\)-test statistic (2) is
+greater than the critical value (\(1.96\)), we reject the null
+hypothesis at the \(5\%\) level of significance.
+\end{frame}
+
+\begin{frame}{Exercise 5 (Cont'd)}
+\protect\hypertarget{exercise-5-contd-2}{}
+\pause
+
+Further, the p-value for this two-tailed hypothesis test is the
+probability of observing a test statistic as extreme or more extreme
+than the absolute value of the observed z-statistic, in either
+direction, under the standard normal distribution. That is,
+\vspace{-5pt}
+
+\pause
+
+\[
+P(Z > |2|) = 2P(Z > 2) = 2 \times 0.0228 = 0.0456.
+\]
+
+\pause
+
+Since the p-value (0.0456) is less than the significance level of 0.05,
+we reject the null hypothesis at the 5\% level of significance.
+\end{frame}
+
+\begin{frame}{Exercise 5 (Cont'd)}
+\protect\hypertarget{exercise-5-contd-3}{}
+\begin{enumerate}
+\setcounter{enumi}{1}
+\item
+  Assume the sample standard deviation is known to be 3 minutes. Test
+  whether the true average waiting time differs from 15 minutes using a
+  5\% level of significance.
+
+  \pause
+
+  Only the sample standard deviation is known (\(s=3\)) and the sample
+  size is only \(n=25\), we must assume the population distribution is
+  normal so that we can use the Student's \(t\) distribution to conduct
+  hypothesis testing.
+
+  \pause
+
+  We compute the t-test statistic based on the information. We have
+  \(\mu = 15\), \(\bar{x} = 16.2\), \(n = 25\), and \(s = 3\)
+
+  \pause
+
+  \[
+   \frac{\bar{x}-\mu}{s/\sqrt{n}}
+   =
+   \frac{16.2 - 15}{3/\sqrt{25}}
+   =
+   \frac{1.2}{0.6}
+   =
+   2
+   \]
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Exercise 5 (Cont'd)}
+\protect\hypertarget{exercise-5-contd-4}{}
+\pause
+
+The significance level is \(\alpha = 5\%\). To find the critical value
+for rejecting the null at this significance level, we look for the
+probability of \(0.05 \div 2 = 0.025\) in the Student's \(t\)
+distribution table with a degree of freedom
+\(df = n - 1 = 25 - 1 = 24\). For a two-tailed test, we look for the
+value \(t\) such that the probability to both its left and right is
+\(0.025\). From the table, we find that \vspace{-5pt}
+
+\pause
+
+\[
+\Pr(T > 2.064) = 0.025.
+\]
+
+\pause
+
+Therefore, the critical value for a two-tailed test at the \(5\%\)
+significance level is \(2.064\). Since the \(t\)-test statistic (2) is
+less than the critical value (\(2.064\)), we fail to reject the null
+hypothesis at the \(5\%\) level of significance.
+\end{frame}
+
+\begin{frame}{Exercise 5 (Cont'd)}
+\protect\hypertarget{exercise-5-contd-5}{}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item
+  Explain differences (if any) in the results in (a) and (b).
+
+  \pause
+
+  When using a two-tailed Z-test at the 5\% significance level, the
+  critical values are ±1.96. Since the test statistic of 2 exceeds this
+  cutoff, we reject the null hypothesis. However, when using a t-test
+  with the same test statistic and the same 5\% two-tailed significance
+  level, the critical values depend on the degrees of freedom. With a
+  smaller sample size, the t-distribution has heavier tails, so the
+  critical values are larger in magnitude (for example, around ±2.064
+  when df = 24). Because the test statistic of 2 does not exceed these
+  larger t critical values, we fail to reject the null hypothesis. Thus,
+  the same test statistic can lead to different conclusions because the
+  t-distribution is wider than the standard normal distribution when
+  sample sizes are small.
+\end{enumerate}
+\end{frame}
+
+
+
+\end{document}

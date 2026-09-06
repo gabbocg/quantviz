@@ -1,0 +1,273 @@
+---
+title: "Seminar 5"
+subtitle: "Statistics 1 (Estimation) Solutions"
+thanks: "gabriel.cabreraguzman@postgrad.manchester.ac.uk"
+author: 
+    - name: Gabriel E. Cabrera Guzmán
+      orcid: 0000-0000-0000-0000
+short-author: "Gabriel E. Cabrera Guzmán"
+institute: | 
+     | The University of Manchester
+     | Alliance Manchester Business School
+date: "today"
+date-format: long
+format:
+  beamer:
+      navigation: horizontal
+      theme: default
+      colortheme: default
+      aspectratio: 43
+include-in-header: 
+    - before-body.tex
+template-partials:
+  - title.tex
+keep-tex: true
+---
+
+## Exercise 1
+
+When a machine is working properly, filled chocolate bars have a weight of 30g with a standard deviation of 1g. For quality control a sample of 50 bars is taken during a day and the average weight ($\bar{X}$) is calculated. At the end of a particular day the sample average is 29.7. Calculate a 95% confidence interval for the mean weight of a bar on this day.
+
+
+## Exercise 1 (Cont'd)
+
+Since the population standard deviation is known ($\sigma = 1$) and the sample size is large ($n = 50$), we can use the standard normal distribution to construct the confidence interval. To find the confidence interval, we first need to find $Z_{\alpha/2}$. We want to construct a 95\% confidence interval. Therefore, the confidence level is $1-\alpha = 0.95$, and $\alpha = 0.05$. Considering that we have a two-sided confidence interval, the error term in each tail must be $\alpha/2 = 0.025$. Thus, $\Pr(Z < \alpha) = 0.975$. To find suitable $Z_{\alpha/2} = \alpha$, search for the probability of 0.975 among the numbers (probabilities) in the standard normal distribution table. We find that $\Pr(Z < 1.96) = 0.975$. Therefore, we have $Z_{\alpha/2} = 1.96$.
+
+## Exercise 1 (Cont'd)
+
+. . .
+
+Construct the confidence interval and replace $\bar{x} = 29.7$, $Z_{\alpha/2} = 1.96$, $n = 50$, and $\sigma = 1$ as follows:
+
+. . .
+
+$$
+\bar{x} - Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}} < \mu < \bar{x} + Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+$$
+
+. . . 
+
+$$
+29.7 - 1.96 \times \frac{1}{\sqrt{50}} < \mu < 29.7 + 1.96 \times \frac{1}{\sqrt{50}}
+$$
+
+. . . 
+
+$$
+29.423 < \mu < 29.977
+$$
+
+## Exercise 2
+
+A regular daily flight is due to arrival at 18:00. Its arrival time has a normal distribution with mean 18:10 hours and standard deviation 10 minutes. A new traffic control system is installed but is criticised for causing delays in arrivals. To investigate this, a sample of 20 flights gave a mean arrival time of 18:12. Calculate the 95% confidence interval for the new mean arrival time.
+
+## Exercise 2 (Cont'd)
+
+Since the population standard deviation is known ($\sigma = 10$) and the population distribution is normally distributed, we can use the standard normal distribution to construct the confidence interval. To find the confidence interval, we first need to find $Z_{\alpha/2}$. We want to construct a 95\% confidence interval. Therefore, the confidence level is $1-\alpha = 0.95$, and $\alpha = 0.05$. Considering that we have a two-sided confidence interval, the error term in each tail must be $\alpha/2 = 0.025$. Thus, $\Pr(Z < \alpha) = 0.975$. To find suitable $Z_{\alpha/2} = \alpha$, search for the probability of 0.975 among the numbers (probabilities) in the standard normal distribution table. We find that $\Pr(Z < 1.96) = 0.975$. Therefore, we have $Z_{\alpha/2} = 1.96.$
+
+## Exercise 2 (Cont'd)
+
+. . .
+
+Construct the confidence interval and replace $\bar{x} = 1812$, $Z_{\alpha/2} = 1.96$, $n = 20$, and $\sigma = 10$ as follows:
+
+. . . 
+
+$$
+\bar{x} - Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}} < \mu < \bar{x} + Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+$$
+
+. . .
+
+$$
+1812 - 1.96 \times \frac{10}{\sqrt{20}} < \mu < 1812 + 1.96 \times \frac{10}{\sqrt{20}}
+$$
+
+. . .
+
+$$
+1807.617 < \mu < 1816.383
+$$
+
+## Exercise 3
+
+A sample of 10 taxi fares from the station to the centre of Norwich gave a mean of £3.80 and a sample standard deviation of 80p. Calculate the 95% confidence interval for the mean taxi fare. What assumptions are necessary?
+
+## Exercise 3 (Cont'd)
+
+Since the population standard deviation is unknown, population distribution is unknown, and the sample size is small. We will assume that the population distribution is normally distributed so that we can use Student’s t distribution to construct the confidence interval. To find the confidence interval, we first need to find $t_{\alpha/2}$. We want to construct a 95\% confidence interval. Therefore, the confidence level is $1-\alpha = 0.95$, and $\alpha = 0.05$. Considering that we have a two-sided confidence interval, the error term in each tail must be $\alpha/2 = 0.025$. Thus, $\Pr(T < \alpha) = 0.975$. To find suitable $t_{\alpha/2} = \alpha$, search for the probability of 0.975 among the numbers (probabilities) with a degree of freedom of $n-1 = 10-1 = 9$ in the Student’s t distribution table. We find that $\Pr(T < 2.262) = 0.975$. Therefore, we have $t_{\alpha/2} = 2.262$.
+
+## Exercise 3 (Cont'd)
+
+. . .
+
+Construct the confidence interval and replace $\bar{x} = 3.8$, $t_{\alpha/2} = 2.262$, $n = 10$, and $s = 0.8$ as follows:
+
+. . . 
+
+$$
+\bar{x} - t_{\alpha/2} \times \frac{s}{\sqrt{n}} < \mu < \bar{x} + t_{\alpha/2} \times \frac{s}{\sqrt{n}}
+$$
+
+. . . 
+
+$$
+3.8 - 2.262 \times \frac{0.8}{\sqrt{10}} < \mu < 3.8 + 2.262 \times \frac{0.8}{\sqrt{10}}
+$$
+
+. . . 
+
+$$
+3.228 < \mu < 4.372
+$$
+
+## Exercise 4
+
+The voltage of a power supply plant is believed to follow a normal distribution. A random sample of 18 observations is taken from this plant, presented below: 
+
+\bigskip
+\begin{table}[h!]
+\footnotesize
+\centering
+\begin{tabular}{ccccccccc}
+\toprule
+10.85 & 11.40 & 10.81 & 10.24 & 10.23 & 9.49 & 9.89 & 10.11 & 10.57 \\
+11.21 & 10.10 & 11.22 & 10.31 & 11.24 & 9.51 & 10.52 & 9.92 & 8.33  \\
+\bottomrule
+\end{tabular}
+\end{table}
+\medskip
+
+To avoid any need for calculation, consider that the mean and standard deviation of the above sample is 10.3306 and 0.76672. The primary concern is the average voltage of a particular power supply plant, believed to be 10 volts.
+
+## Exercise 4 (Cont'd)
+
+1. Calculate the 95% confidence interval for the average voltage for this power supply unit. Is the belief that $\mu = 10$ reasonable?
+    
+    . . .
+    
+    Since the population variance is unknown and the population distribution is normally distributed, we can use Student’s t distribution to construct the confidence interval. To find confidence interval, we first need to find $t_{\alpha/2}$. We want to construct a 95\% confidence interval. Therefore, the confidence level is $1-\alpha = 0.95$, and $\alpha = 0.05$. Considering that we have a two-sided confidence interval, the error term in each tail must be $\alpha/2 = 0.025$. Thus, $\Pr(T < \alpha) = 0.975$. To find suitable $t_{\alpha/2} = \alpha$, search for the probability of 0.975 among the numbers (probabilities) with a degree of freedom of $n-1 = 18-1 = 17$ in the Student’s t distribution table. We find that $\Pr(T < 2.110) = 0.975$. Therefore, we have $t_{\alpha/2} = 2.110$.
+
+## Exercise 4 (Cont'd)
+
+. . .
+
+Construct the confidence interval and replace $\bar{x} = 10.3306$, $t_{\alpha/2} = 2.11$, $n = 18$, and $s = 0.76672$ as follows:
+
+. . . 
+
+$$
+\bar{x} - t_{\alpha/2} \times \frac{s}{\sqrt{n}} < \mu < \bar{x} + t_{\alpha/2} \times \frac{s}{\sqrt{n}}
+$$
+
+. . . 
+
+$$
+10.3306 - 2.11 \times \frac{0.76672}{\sqrt{18}} < \mu < 10.3306 + 2.11 \times \frac{0.76672}{\sqrt{18}}
+$$
+
+. . . 
+
+$$
+9.9493 < \mu < 10.7119
+$$
+
+## Exercise 4 (Cont'd)
+
+. . .
+
+This means that if we were to calculate many 95\% confidence intervals using the same method, about 95\% of them would contain the true mean. Since $\mu = 10$ lies within this interval, the belief that the population mean is 10 is plausible based on this sample.
+
+## Exercise 4 (Cont'd)
+
+2. Calculate the 99% confidence interval
+    
+    . . . 
+    
+    We want to construct a 99\% confidence interval. Therefore, the confidence level is $1-\alpha = 0.99$, and $\alpha = 0.01$. Considering that we have a two-sided confidence interval, the error term in each tail must be $\alpha/2 = 0.005$. Thus, $\Pr(T < \alpha) = 0.995$. To find suitable $t_{\alpha/2} = \alpha$, search for the probability of 0.995 among the numbers (probabilities) with a degree of freedom of $n-1 = 18-1 = 17$ in the Student’s t distribution table. We find that $\Pr(T < 2.898) = 0.995$. Therefore, we have $t_{\alpha/2} = 2.898$.
+
+## Exercise 4 (Cont'd)
+
+Now construct the confidence interval as follows:
+
+. . .
+
+$$
+\bar{X} - t_{\alpha/2} \times \frac{s}{\sqrt{n}} < \mu < \bar{X} + t_{\alpha/2} \times \frac{s}{\sqrt{n}}
+$$
+
+. . .
+
+$$
+10.3306 - 2.898 \times \frac{0.76672}{\sqrt{18}} < \mu < 10.3306 + 2.898 \times \frac{0.76672}{\sqrt{18}}
+$$
+
+. . .
+
+$$
+9.8068 < \mu < 10.8543
+$$
+
+Note that by increasing the confidence level, the confidence interval becomes wider.
+
+## Exercise 5
+
+The following P/E ratios were obtained for a random sample of 8 stocks taken from the **Wall Street Journal**. 
+
+\bigskip
+\begin{table}[h!]
+\centering
+\begin{tabular}{cccccccc}
+\toprule
+5 & 7 & 9 & 10 & 14 & 23 & 20 & 15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\bigskip
+
+Calculate:
+
+1. An estimator for the mean P/E ratio on the New York Stock Exchange. State any assumptions that are necessary for your work.
+
+    . . .
+    
+    We can estimate the population mean using the sample mean, which in this case is 12.875
+
+## Exercise 5 (Cont'd)
+
+2. A 95% confidence interval for the mean P/E ratio on the New York Stock Exchange. State any assumptions that are necessary for your work.
+    
+    .  .  .
+    
+    Since the population standard deviation is unknown, population distribution is unknown, and the sample size is small. We will assume that the population distribution is normally distributed so that we can use Student’s t distribution to construct the confidence interval. To find the confidence interval, we first need to find $t_{\alpha/2}$. We want to construct a 95\% confidence interval. Therefore, the confidence level is $1-\alpha = 0.95$, and $\alpha = 0.05$. Considering that we have a two-sided confidence interval, the error term in each tail must be $\alpha/2 = 0.025$. Thus, $\Pr(T < \alpha) = 0.975$. 
+    
+## Exercise 5 (Cont'd)
+
+. . .
+
+To find suitable $t_{\alpha/2} = \alpha$, search for the probability of 0.975 among the numbers (probabilities) with a degree of freedom of $n-1 = 8-1 = 7$ in the Student’s t distribution table. We find that $\Pr(T < 2.364) = 0.975$. Therefore, we have $t_{\alpha/2} = 2.364$.
+
+. . .
+
+Construct the confidence interval and replace $\bar{x} = 12.875$, $t_{\alpha/2} = 2.364$, $n = 8$, and $s = 6.31$ as follows:
+
+## Exercise 5 (Cont'd)
+
+$$
+\bar{x} - t_{\alpha/2} \times \frac{s}{\sqrt{n}} < \mu < \bar{x} + t_{\alpha/2} \times \frac{s}{\sqrt{n}}
+$$
+
+. . .
+
+$$
+12.875 - 2.364 \times \frac{6.31}{\sqrt{8}} < \mu < 12.875 + 2.364 \times \frac{6.31}{\sqrt{8}}
+$$
+
+. . . 
+
+$$
+7.598 < \mu < 18.152
+$$
+
+
+

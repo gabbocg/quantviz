@@ -1,0 +1,590 @@
+---
+title: "Seminar 6"
+subtitle: "Statistics 2 (Hypothesis Testing) Solutions"
+thanks: "gabriel.cabreraguzman@postgrad.manchester.ac.uk"
+author: 
+    - name: Gabriel E. Cabrera Guzmán
+      orcid: 0000-0000-0000-0000
+short-author: "Gabriel E. Cabrera Guzmán"
+institute: | 
+     | The University of Manchester
+     | Alliance Manchester Business School
+date: "today"
+date-format: long
+format:
+  beamer:
+      navigation: horizontal
+      theme: default
+      colortheme: default
+      aspectratio: 43
+include-in-header: 
+    - before-body.tex
+template-partials:
+  - title.tex
+keep-tex: true
+---
+
+## Exercise 1
+
+An international airport advertises that an average of 1,300 flights land there each day. An
+aviation analyst suspects that the true average number of daily landings is higher than this
+claim. Assuming a population standard deviation of 720 flights, the analyst monitors airport
+activity for 36 days and observes a sample mean of 1,600 flights per day.
+
+1. Test the claim of the aviation analyst using a 5% level of significance.
+    
+    . . .
+    
+    Since the population standard deviation is known ($\sigma = 720$) and the sample size is large ($n = 36$), we can use the standard normal distribution to conduct the hypothesis test.
+
+## Exercise 1 (Cont'd)
+
+. . . 
+
+We first write down the hypotheses. Since the aviation analyst expects the true average number of daily landings to be higher, the alternative hypothesis uses a greater-than sign: \vspace{-5pt}
+
+. . .
+
+$$
+\begin{aligned}
+H_0: \mu &= 1300 \\ 
+H_1: \mu &> 1300
+\end{aligned}
+$$
+
+. . . 
+
+Next, we compute the $z$-test statistic based on the information provided. We have $\mu = 1300$, $\bar{x} = 1600$, $n = 36$, and $\sigma = 720$:
+
+. . . 
+
+$$
+z = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}
+= \frac{1600 - 1300}{720 / \sqrt{36}}
+= \frac{300}{120}
+= 2.5.
+$$
+
+## Exercise 1 (Cont'd)
+
+. . . 
+
+The significance level is $\alpha = 5\%$. To find the critical value for rejecting the null at this level, we look for the value $z$ such that the probability to its right is $0.05$. From the standard normal table, \vspace{-4pt}
+
+. . .
+
+$$
+\Pr(Z < 1.64) = 0.95.
+$$
+
+. . .
+
+Thus, the critical value for a right-tailed test at the 5% level is $z_{\alpha} = 1.64$. Since the test statistic (2.5) is greater than the critical value (1.64), we reject the null hypothesis at the 5% significance level.
+
+. . . 
+
+Furthermore, the $p$-value is the area to the right of the observed $z$-statistic:
+
+## Exercise 1 (Cont'd)
+
+. . .
+
+$$
+\begin{aligned}
+p &= \Pr(Z > 2.5) \\
+  &= 1 - \Pr(Z < 2.5) \\
+  &= 1 - 0.9938 \\
+  &= 0.0062.
+\end{aligned}
+$$
+
+. . .
+
+Since the $p$-value ($0.0062$) is less than $\alpha = 0.05$, we again reject the null hypothesis at the 5% level of significance.
+
+## Exercise 1 (Cont'd)
+
+2. Suggest a potential source of a Type I error.
+    
+    . . .
+    
+    Sample selection bias. The days could be chosen from peak seasons like summer. 
+
+## Exercise 2
+
+An insurance firm claims that the monthly number of approved claims is normally distributed
+with a mean of 120. An analyst believes that the true average number of approved claims is
+less than this and collects data for the past 25 months. The analyst finds that the sample mean
+number of approved claims per month is 114, with a sample standard deviation of 15.
+
+1. Test the analyst’s claim using a 5% level of significance. You do not need to calculate
+the p-value.
+    
+    . . .
+    
+    Since the sample standard deviation is known ($s = 15$) and the population distribution is assumed to be normally distributed, we use the Student's $t$ distribution to conduct the hypothesis test.
+
+## Exercise 2 (Cont'd)
+
+. . .
+
+We first write down the hypotheses. Since the analyst believes the true average number of approved claims is lower, the alternative hypothesis uses a less-than sign:\vspace{-4pt}
+
+. . .
+
+$$
+\begin{aligned}
+H_0: \mu &= 120 \\
+H_1: \mu &< 120
+\end{aligned}
+$$
+
+. . .
+
+Next, we compute the $t$-test statistic based on the information provided. We have $\mu = 120$, $\bar{x} = 114$, $n = 25$, and $s = 15$:
+
+. . .
+
+$$
+t = \frac{\bar{x} - \mu}{s / \sqrt{n}}
+= \frac{114 - 120}{15 / \sqrt{25}}
+= \frac{-6}{3}
+= -2.
+$$
+
+## Exercise 2 (Cont'd)
+
+. . . 
+
+The significance level is $\alpha = 5\%$. To find the critical value for rejecting the null at this significance level, we look for the probability of $0.05$ in the Student's $t$ distribution table with degrees of freedom \vspace{-4pt}
+
+. . .
+
+$$
+df = n - 1 = 25 - 1 = 24.
+$$
+
+. . . 
+
+For a left-tailed test, we look for the value $t$ such that the probability to its left is $0.05$. From the table, we find that \vspace{-4pt}
+
+. . .
+
+$$
+\Pr(T < -1.711) = 0.05.
+$$
+
+. . .
+
+Therefore, the critical value for a left-tailed test at the 5\% significance level is $-1.711$. Since the $t$-test statistic ($-2$) is less than the critical value ($-1.711$), we reject the null hypothesis at the 5\% level of significance.
+
+## Exercise 2 (Cont'd)
+
+2. Test the analyst’s claim using a 1% level of significance. You do not need to calculate
+the p-value.
+    
+    . . .
+    
+    The significance level is $\alpha = 1\%$. To find the critical value for rejecting the null at this significance level, we look for the probability of $0.01$ in the Student's $t$ distribution table with degrees of freedom \vspace{-4pt}
+    
+    . . .
+    
+    $$
+    df = n - 1 = 25 - 1 = 24.
+    $$
+
+## Exercise 2 (Cont'd)
+
+. . .
+
+For a left-tailed test, we look for the value $t$ such that the probability to its left is $0.01$. From the table, we find that \vspace{-4pt}
+
+. . .
+
+$$
+\Pr(T < -2.492) = 0.01.
+$$
+
+. . .
+
+Therefore, the critical value for a left-tailed test at the 1\% significance level is $-2.492$. Since the $t$-test statistic ($-2$) is greater than the critical value ($-2.492$), we fail to reject the null hypothesis at the 1\% level of significance.
+
+## Exercise 2 (Cont'd)
+
+3. Explain differences (if any) in the results in (a) and (b).
+    
+    . . . 
+    
+    We reject the null hypothesis in part (a) but not in part (b). This difference arises because the significance level is lower in part (b). A 1\% significance level requires a more extreme test statistic to reject the null compared to a 5\% significance level. Since the observed test statistic is not extreme enough to exceed the stricter 1\% critical threshold, we fail to reject the null at 1% even though we were able to reject it at 5%.
+
+## Exercise 3
+
+The scores on a first-year undergraduate statistics exam are assumed to be normally distributed
+with a population mean of 60 and a population standard deviation of 18. A sample of 81
+students has a sample mean score of 64.
+
+1. Test the claim that the average exam score is less than 60 using a 1% level of
+significance.
+    
+    . . .
+    
+    Since the population standard deviation is known ($\sigma = 18$) and the sample size is large ($n = 81$), we can use the standard normal distribution to conduct hypothesis testing. As only the direction of the test changes from parts (a)–(c), we first compute the $z$-test statistic based on the information. We have $\mu = 60$, $\bar{x} = 64$, $n = 81$, and $\sigma = 18$: \vspace{-4pt}
+
+    . . .
+    
+    $$
+    z = \frac{\bar{x} - \mu}{\sigma / \sqrt{n}}
+    = \frac{64 - 60}{18 / \sqrt{81}}
+    = \frac{4}{2}
+    = 2.
+    $$
+
+## Exercise 3 (Cont'd)
+
+. . .
+
+Since claim is the average exam score is less than 60, the alternative hypothesis would contain the less than sign. We have: \vspace{-4pt}
+
+. . .
+
+$$
+\begin{aligned}
+H_0:\mu &= 60 \\
+H_1:\mu &< 60
+\end{aligned}
+$$
+
+. . .
+
+The significance level is $\alpha=1\%$. To find the critical value for rejecting the null at this significance level, we look for the probability of $0.01$ in the standard normal distribution table. 
+For a left-tailed test, we look for the value $z$ such that the probability to its left is $0.01$. From the table, we find that 
+
+## Exercise 3 (Cont'd)
+
+. . .
+
+$$
+\Pr(Z<-2.33)=0.01
+$$
+
+. . .
+
+Therefore, the critical value for a left-tailed test at the $1\%$ significance level is $-2.33$. Since the $z$-test statistic (2) is greater than the critical value ($-2.33$), we fail to reject the null hypothesis at the $1\%$ level of significance.
+
+. . . 
+
+Further, the p-value for this hypothesis test is the area to the left of the observed z-statistic under the standard normal distribution. That is, \vspace{-4pt}
+
+. . .
+
+$$
+\Pr(Z<2)=0.9772
+$$
+
+## Exercise 3 (Cont'd)
+
+. . .
+
+Since the p-value ($0.9772$) is greater than the significance level of $0.01$, we fail to reject the null hypothesis at the $1\%$ level of significance.
+
+## Exercise 3 (Cont'd)
+
+2. Test the claim that the average exam score is greater than 60 using a 1% level of
+significance.
+    
+    . . .
+    
+    Since claim is the average exam score is greater than 60, the alternative hypothesis would contain the less than sign. We have: \vspace{-17pt}
+    
+    . . .
+    
+    $$
+    \begin{aligned}
+    H_0:\mu &= 60 \\ 
+    H_1:\mu &> 60
+    \end{aligned}
+    $$
+    
+    . . .
+    
+    The significance level is $\alpha=1\%$. To find the critical value for rejecting the null at this significance level, we look for the probability of $0.01$ in the standard normal distribution table. 
+    For a right-tailed test, we look for the value $z$ such that the probability to its right is $0.01$. From the table, we find that 
+
+## Exercise 3 (Cont'd)
+
+. . .
+
+$$
+\Pr(Z>2.33)=0.01
+$$
+
+. . .
+
+Therefore, the critical value for a right-tailed test at the $1\%$ significance level is $2.33$. Since the $z$-test statistic (2) is less than the critical value ($2.33$), we fail to reject the null hypothesis at the $1\%$ level of significance.
+
+. . .
+
+Further, the p-value for this hypothesis test is the area to the right of the observed z-statistic under the standard normal distribution. That is, \vspace{-10pt}
+
+. . .
+
+$$
+\Pr(Z>2)=1-\Pr(Z<2)=1-0.9772=0.023.
+$$
+
+. . .
+
+Since the p-value (0.023) is greater than the significance level of 0.01, we fail to reject the null hypothesis at the 1\% level of significance.
+
+## Exercise 3 (Cont'd)
+
+3. Test the claim that the average exam score is different from 60 using a 1% level of
+significance.
+    
+    . . .
+    
+    Since claim is the average exam score is different than 60, the alternative hypothesis would contain the not equal to sign. We have: \vspace{-5pt}
+        
+    . . .
+    
+    $$
+    \begin{aligned}
+    H_0:\mu &=60 \\ 
+    H_1:\mu &\neq 60
+    \end{aligned}
+    $$
+    
+    . . .
+    
+    The significance level is $\alpha=1\%$. To find the critical value for rejecting the null at this significance level, we look for the probability of $0.01 \div 2 = 0.005$ in the standard normal distribution table. For a two-tailed test, we look for the value $z$ such that the probability to both its left and right is $0.005$. From the table, we find that 
+
+## Exercise 3 (Cont'd)
+
+. . .
+
+$$
+\Pr(Z>2.58)=0.005.
+$$
+\vspace{-15pt}
+
+. . .
+
+Therefore, the critical value for a two-tailed test at the $1\%$ significance level is $2.58$. Since the $z$-test statistic (2) is less than the critical value ($2.58$), we fail to reject the null hypothesis at the $1\%$ level of significance.
+
+. . .
+
+Further, the p-value for this two-tailed hypothesis test is the probability of observing a test statistic as extreme or more extreme than the absolute value of the observed z-statistic, in either direction, under the standard normal distribution. That is, \vspace{-5pt}
+
+. . .
+
+$$
+P(Z > |2|) = 2P(Z > 2) = 2 \times 0.0228 = 0.0456.
+$$
+
+. . .
+
+Since the p-value (0.0456) is greater than the significance level of 0.01, we fail to reject the null hypothesis at the 1\% level of significance.
+
+## Exercise 3 (Cont'd)
+
+4. Suppose we change the level of significance level to 5%. In which of the above
+scenarios can we reject the null?
+
+    When we change the significance level to 5\%, we can reject the null for the hypothesis tests in (b) and (c) but not (a).
+    
+    | Test | p-value | Decision        |
+    |------|---------|-----------------|
+    | (a)  | 0.977   | Fail to Reject  |
+    | (b)  | 0.023   | Reject          |
+    | (c)  | 0.046   | Reject          |
+
+## Exercise 4
+
+A manufacturer of rechargeable batteries advertises that the average lifetime of its batteries is
+20 hours. An independent consumer group wants to investigate this claim. They collect a
+sample of 100 batteries and find that the average lifetime in the sample is 19.2 hours. The
+population standard deviation is known to be 3 hours.
+
+1. Construct a 99% confidence interval for the true average battery lifetime.
+    
+    . . .
+    
+    Since the population standard deviation is known and the sample size is large. We can use the standard normal distribution to construct the confidence interval. To find the confidence interval, we first need to find $Z_{\alpha/2}$. We want to construct a 99\% confidence interval. Therefore, the confidence level is $1-\alpha = 0.99$, and $\alpha = 0.01$. Considering that we have a two-sided confidence interval, the error term in each tail must be $\alpha/2 = 0.005$. Thus, $\Pr(Z < \alpha) = 0.995$. 
+
+## Exercise 4 (Cont'd)
+
+. . .
+
+To find suitable $Z_{\alpha/2} = \alpha$, search for the probability of $0.995$ among the numbers (probabilities) in the standard normal distribution table. We find that \vspace{-10pt}
+
+. . .
+
+$$
+\Pr(Z < 2.576) = 0.995.
+$$
+
+Therefore, we have $Z_{\alpha/2} = 2.576$.
+
+## Exercise 4 (Cont'd)
+
+. . .
+
+Construct the confidence interval and replace $\bar{x}=19.2$, $Z_{\alpha/2}=2.576$, $n=100$, and $\sigma=3$ as follows:
+
+. . .
+
+$$
+\bar{x} - Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+< \mu <
+\bar{x} + Z_{\alpha/2} \times \frac{\sigma}{\sqrt{n}}
+$$
+
+. . .
+
+$$
+19.2 - 2.576 \times \frac{3}{\sqrt{100}}
+< \mu <
+19.2 + 2.576 \times \frac{3}{\sqrt{100}}
+$$
+
+. . .
+
+$$
+18.43 < \mu < 19.97
+$$
+
+## Exercise 4 (Cont'd)
+
+2. Test the manufacturer’s claim using a 1% level of significance.
+    
+    . . .
+    
+    Since the 99% confidence interval does not contain the population mean (20) claimed by the manufacturer, we can reject the null hypothesis that the population mean is 20 at a 1% level of significance. 
+    
+## Exercise 5
+
+A researcher is examining whether the average waiting time at a service centre has changed
+from its long-standing average of 15 minutes. A random sample of 25 customers is selected.
+The sample shows an average waiting time of 16.2 minutes.
+
+. . .
+
+1. Assume the population standard deviation is known to be 3 minutes. Test whether the
+true average waiting time differs from 15 minutes using a 5% level of significance.
+
+    . . .
+    
+    We first write down the hypothesis, since the claim is that the true average waiting time is different, the alternative hypothesis would contain the not equal to sign. We have: \vspace{-5pt}
+    
+    . . .
+    
+    $$
+    \begin{aligned}
+    H_0:\mu & =15 \\ 
+    H_1:\mu & \neq 15
+    \end{aligned}
+    $$
+
+## Exercise 5 (Cont'd)
+
+. . .
+
+The population standard deviation is known ($\sigma = 3$) and the sample size is only $n=25$, we must assume the population distribution is normal so that we can use the standard normal distribution to conduct hypothesis testing.
+
+. . .
+
+We compute the z-test statistic based on the information. We have $\mu = 15$, $\bar{x} = 16.2$, $n = 25$, and $\sigma = 3$
+
+. . .
+
+$$
+\frac{\bar{x}-\mu}{\sigma/\sqrt{n}}
+=
+\frac{16.2 - 15}{3/\sqrt{25}}
+=
+\frac{1.2}{0.6}
+=
+2
+$$
+
+## Exercise 5 (Cont'd)
+
+. . .
+
+The significance level is $\alpha = 5\%$. To find the critical value for rejecting the null at this significance level, we look for the probability of $0.05 \div 2 = 0.025$ in the standard normal distribution table. For a two-tailed test, we look for the value $z$ such that the probability to both its left and right is $0.025$. From the table, we find that \vspace{-5pt}
+
+. . .
+
+$$
+\Pr(Z > 1.96) = 0.025.
+$$
+
+. . .
+
+Therefore, the critical value for a two-tailed test at the $5\%$ significance level is $1.96$. Since the $z$-test statistic (2) is greater than the critical value ($1.96$), we reject the null hypothesis at the $5\%$ level of significance.
+
+## Exercise 5 (Cont'd)
+
+. . . 
+
+Further, the p-value for this two-tailed hypothesis test is the probability of observing a test statistic as extreme or more extreme than the absolute value of the observed z-statistic, in either direction, under the standard normal distribution. That is, \vspace{-5pt}
+
+. . .
+
+$$
+P(Z > |2|) = 2P(Z > 2) = 2 \times 0.0228 = 0.0456.
+$$
+
+. . .
+
+Since the p-value (0.0456) is less than the significance level of 0.05, we reject the null hypothesis at the 5\% level of significance.
+
+## Exercise 5 (Cont'd)
+
+2. Assume the sample standard deviation is known to be 3 minutes. Test whether the
+true average waiting time differs from 15 minutes using a 5% level of significance.
+    
+    . . .
+    
+    Only the sample standard deviation is known ($s=3$) and the sample size is only $n=25$, we must assume the population distribution is normal so that we can use the Student’s $t$ distribution to conduct hypothesis testing.
+    
+    . . .
+    
+    We compute the t-test statistic based on the information. We have $\mu = 15$, $\bar{x} = 16.2$, $n = 25$, and $s = 3$
+        
+    . . .
+    
+    $$
+    \frac{\bar{x}-\mu}{s/\sqrt{n}}
+    =
+    \frac{16.2 - 15}{3/\sqrt{25}}
+    =
+    \frac{1.2}{0.6}
+    =
+    2
+    $$
+
+## Exercise 5 (Cont'd)
+
+. . .
+
+The significance level is $\alpha = 5\%$. To find the critical value for rejecting the null at this significance level, we look for the probability of $0.05 \div 2 = 0.025$ in the Student’s $t$ distribution table with a degree of freedom $df = n - 1 = 25 - 1 = 24$. For a two-tailed test, we look for the value $t$ such that the probability to both its left and right is $0.025$. From the table, we find that \vspace{-5pt}
+
+. . .
+
+$$
+\Pr(T > 2.064) = 0.025.
+$$
+
+. . .
+
+Therefore, the critical value for a two-tailed test at the $5\%$ significance level is $2.064$. Since the $t$-test statistic (2) is less than the critical value ($2.064$), we fail to reject the null hypothesis at the $5\%$ level of significance.
+
+## Exercise 5 (Cont'd)
+
+3. Explain differences (if any) in the results in (a) and (b).
+    
+    . . .
+    
+    When using a two-tailed Z-test at the 5\% significance level, the critical values are ±1.96. Since the test statistic of 2 exceeds this cutoff, we reject the null hypothesis. However, when using a t-test with the same test statistic and the same 5\% two-tailed significance level, the critical values depend on the degrees of freedom. With a smaller sample size, the t-distribution has heavier tails, so the critical values are larger in magnitude (for example, around ±2.064 when df = 24). Because the test statistic of 2 does not exceed these larger t critical values, we fail to reject the null hypothesis. Thus, the same test statistic can lead to different conclusions because the t-distribution is wider than the standard normal distribution when sample sizes are small.
+
